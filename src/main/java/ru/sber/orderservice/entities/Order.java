@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 /**
  * Заказ
  */
-
 @Entity
 @AllArgsConstructor
 @Data
@@ -33,7 +32,6 @@ public class Order {
 
     @Column
     private long branchOfficeId;
-
 
     @Column(nullable = false)
     @Size(max = 20)
@@ -88,11 +86,9 @@ public class Order {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime deliveryTime;
 
-    @Column
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Column
     private String refusalReason;
-
-
 }

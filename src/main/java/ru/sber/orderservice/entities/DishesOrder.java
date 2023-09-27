@@ -5,13 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Список блюд для {@link Order}
+ * Список блюд для {@link Order заказа}
  */
-
 @Entity
 @AllArgsConstructor
 @Data
