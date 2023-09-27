@@ -50,8 +50,14 @@ public class Order {
     @Column(nullable = false)
     private String address;
 
+    @Column
+    private String branchAddress;
+
     @Column(nullable = false)
     private Integer flat;
+
+    @Column(nullable = false)
+    private Integer weight;
 
     @Column
     private Integer frontDoor;
@@ -61,6 +67,11 @@ public class Order {
 
     @Column(nullable = false)
     private EStatusOrders statusOrders;
+
+    @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime orderTime;
 
     @Column
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -78,9 +89,10 @@ public class Order {
     private LocalDateTime deliveryTime;
 
     @Column
-    private BigDecimal latitude;
+    private BigDecimal price;
 
     @Column
-    private BigDecimal longitude;
+    private String refusalReason;
+
 
 }

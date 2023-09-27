@@ -25,6 +25,9 @@ public class DishesOrder {
     @Column(name = "dish_id", nullable = false)
     private Long dishId;
 
+    @Column(nullable = false)
+    private String dishName;
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
