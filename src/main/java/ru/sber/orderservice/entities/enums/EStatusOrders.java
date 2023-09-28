@@ -6,7 +6,8 @@ package ru.sber.orderservice.entities.enums;
 public enum EStatusOrders {
     TODO,
     IN_PROCESS,
-    COMPLETE,
+    COOKED,
     CANCELLED,
-    COURIERED
+    COURIERED,
+    COMPLETED
 }

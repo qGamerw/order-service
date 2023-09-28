@@ -6,6 +6,7 @@ import ru.sber.orderservice.models.CancellationOfOrder;
 import ru.sber.orderservice.models.LimitOrder;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Сервис для взаимодействия с {@link Order заказом}
@@ -27,6 +28,19 @@ public interface OrderService {
      * @return List<LimitOrder>
      */
     List<LimitOrder> getListOrder();
+
+    /**
+     * Ищет список заказов которые готовятся или уже готовы, но не доставляются
+     * @return список заказов
+     */
+    List<LimitOrder> findAllActiveOrder();
+
+    /**
+     * Ищет заказ по id
+     * @param id
+     * @return
+     */
+    Optional<LimitOrder> findOrderById(long id);
 
     /**
      * Отменяет заказ
