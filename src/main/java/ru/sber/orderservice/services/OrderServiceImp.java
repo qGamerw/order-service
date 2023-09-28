@@ -100,11 +100,11 @@ public class OrderServiceImp implements OrderService {
 
         Optional<Order> order = orderRepository.findById(id);
 
-        if(order.isPresent()){
+        if (order.isPresent()) {
             List<LimitDishesOrder> dishesOrders = dishesOrderRepository.findAllByOrderId(id)
                     .stream()
                     .map(LimitDishesOrder::new)
-                    .toList() ;
+                    .toList();
 
             return Optional.of(new LimitOrder(order.get(), dishesOrders));
         }
@@ -112,9 +112,14 @@ public class OrderServiceImp implements OrderService {
         return Optional.empty();
     }
 
+    @Override
+    public List<Order> findOrdersByCourierId(long id) {
+        return orderRepository.findOrderByCourierId(id);
+    }
 
     /**
      * Преобразует класс Order {@link Order} в {@link LimitOrder}
+     *
      * @return урезанный заказ
      */
     private Function<Order, LimitOrder> getLimitOrderFunction() {
@@ -126,4 +131,6 @@ public class OrderServiceImp implements OrderService {
             return new LimitOrder(order, dishesOrders);
         };
     }
+
+
 }

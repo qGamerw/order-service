@@ -31,14 +31,16 @@ public interface OrderService {
 
     /**
      * Ищет список заказов которые готовятся или уже готовы, но не доставляются
+     *
      * @return список заказов
      */
     List<LimitOrder> findAllActiveOrder();
 
     /**
      * Ищет заказ по id
-     * @param id
-     * @return
+     *
+     * @param id индификатор заказа
+     * @return заказ
      */
     Optional<LimitOrder> findOrderById(long id);
 
@@ -48,4 +50,11 @@ public interface OrderService {
      * @param cancellationOfOrder id заказа и причина отказа
      */
     boolean cancellationOfOrderById(CancellationOfOrder cancellationOfOrder);
+
+    /**
+     * Возвращает все заказы которые брал курьер
+     * @param id индлификатор курьера
+     * @return список заказов курьера
+     */
+    List<Order> findOrdersByCourierId(long id);
 }
