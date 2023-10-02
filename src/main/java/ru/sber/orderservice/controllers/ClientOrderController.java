@@ -49,21 +49,8 @@ public class ClientOrderController {
         );
     }
 
-    @GetMapping("/{clientId}")
+    @GetMapping("/client/{clientId}")
     public List<Order> getAllOrdersByClientId(@PathVariable long clientId) {
         return clientOrderService.getAllOrdersByClientId(clientId);
-    }
-
-    @GetMapping("/{orderId}")
-    public ResponseEntity<?> getOrderById(@PathVariable long orderId) {
-        try {
-            log.info("Получаем заказ с id {}", orderId);
-            OrderResponse clientResponse = clientOrderService.getOrderById(orderId);
-            return ResponseEntity.ok(clientResponse);
-        } catch (OrderNotFoundException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .body(ex.getMessage());
-        }
     }
 }

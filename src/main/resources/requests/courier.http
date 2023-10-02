@@ -1,0 +1,21 @@
+###
+
+PUT localhost:8080/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "id": "1",
+  "eStatusOrders": "COURIERED"
+}
+
+###
+
+GET localhost:8080/orders/awaiting-delivery
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+
+###
+GET localhost:8080/orders/1
+
+###
+GET localhost:8080/orders/courier/1

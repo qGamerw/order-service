@@ -56,5 +56,5 @@ public interface OrderService {
      * @param id индлификатор курьера
      * @return список заказов курьера
      */
-    List<Order> findOrdersByCourierId(long id);
+    List<LimitOrder> findOrdersByCourierId(long id);
 }

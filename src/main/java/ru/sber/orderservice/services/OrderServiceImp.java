@@ -113,8 +113,11 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<Order> findOrdersByCourierId(long id) {
-        return orderRepository.findOrderByCourierId(id);
+    public List<LimitOrder> findOrdersByCourierId(long id) {
+        return orderRepository.findOrderByCourierId(id)
+                .stream()
+                .map(getLimitOrderFunction())
+                .toList();
     }
 
     /**
