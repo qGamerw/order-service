@@ -1,0 +1,26 @@
+###Создание заказа
+POST localhost:8080/orders/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "clientId": 1,
+  "clientName": "Павел",
+  "clientPhoneNumber": 123,
+  "description": "Повара должны быть коренными грузинами",
+  "address": "ул. Мира д. 12",
+  "flat": 12,
+  "floor": 3,
+  "frontDoor": 2,
+  "dishIds": [1, 2, 3]
+}
+
+###Получение заказа по id
+GET localhost:8080/orders/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+###Получение всех заказов по id клиента
+GET localhost:8080/orders/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
