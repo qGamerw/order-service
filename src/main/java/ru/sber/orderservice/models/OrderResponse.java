@@ -1,8 +1,9 @@
-package ru.sber.orderservice.entities;
+package ru.sber.orderservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.sber.orderservice.entities.DishesOrder;
 import ru.sber.orderservice.entities.enums.EStatusOrders;
 
 import java.time.LocalDateTime;

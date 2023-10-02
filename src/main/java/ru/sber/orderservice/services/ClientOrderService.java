@@ -1,10 +1,9 @@
 package ru.sber.orderservice.services;
 
 import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.entities.OrderResponse;
+import ru.sber.orderservice.models.OrderResponse;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Сервис для взаимодействия с {@link Order заказом клиента}

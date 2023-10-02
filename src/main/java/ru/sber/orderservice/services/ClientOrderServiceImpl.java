@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sber.orderservice.entities.DishesOrder;
 import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.entities.OrderResponse;
+import ru.sber.orderservice.models.OrderResponse;
 import ru.sber.orderservice.entities.enums.EStatusOrders;
 import ru.sber.orderservice.repositories.ClientOrderRepository;
 import ru.sber.orderservice.repositories.DishesOrderRepository;

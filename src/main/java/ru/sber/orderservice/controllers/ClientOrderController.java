@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.entities.OrderResponse;
+import ru.sber.orderservice.models.OrderResponse;
 import ru.sber.orderservice.exception.OrderNotFoundException;
 import ru.sber.orderservice.services.ClientOrderService;
 
