@@ -48,7 +48,7 @@ public class OrderController {
                 .body(orders);
     }
 
-    @GetMapping
+    @PutMapping("/cancel")
     public ResponseEntity<?> cancellationOfOrderById(@RequestBody CancellationOfOrder cancellationOfOrder) {
         log.info("Отменяет заказ");
 

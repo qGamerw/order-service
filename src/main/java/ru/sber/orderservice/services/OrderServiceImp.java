@@ -88,7 +88,7 @@ public class OrderServiceImp implements OrderService {
                 EStatusOrders.COOKED,
                 EStatusOrders.IN_PROCESS);
 
-        return orderRepository.findByStatusOrdersInAndCourierIdEmpty(eStatusOrdersList)
+        return orderRepository.findByStatusOrdersInAndCourierIdNull(eStatusOrdersList)
                 .stream()
                 .map(getLimitOrderFunction())
                 .toList();

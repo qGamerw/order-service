@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByStatusOrdersIn(List<EStatusOrders> statusOrders);
-    List<Order> findByStatusOrdersInAndCourierIdEmpty(List<EStatusOrders> statusOrders);
+    List<Order> findByStatusOrdersInAndCourierIdNull(List<EStatusOrders> statusOrders);
     List<Order> findOrderByCourierId(long id);
 
     List<Order> findOrderByClientId(long id);
