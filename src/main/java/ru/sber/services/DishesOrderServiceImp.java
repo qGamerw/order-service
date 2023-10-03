@@ -1,4 +1,4 @@
-package ru.sber.orderservice.services;
+package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

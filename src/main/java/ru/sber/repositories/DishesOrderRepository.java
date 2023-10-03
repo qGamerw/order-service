@@ -1,8 +1,8 @@
-package ru.sber.orderservice.repositories;
+package ru.sber.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.sber.orderservice.entities.DishesOrder;
+import ru.sber.entities.DishesOrder;
 
 import java.util.List;
 

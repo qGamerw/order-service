@@ -1,4 +1,4 @@
-package ru.sber.orderservice.models;
+package ru.sber.models;
 
 import lombok.Data;
 

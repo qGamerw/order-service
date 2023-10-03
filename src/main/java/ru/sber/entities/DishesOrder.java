@@ -1,4 +1,4 @@
-package ru.sber.orderservice.entities;
+package ru.sber.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

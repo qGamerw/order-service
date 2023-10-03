@@ -1,4 +1,4 @@
-package ru.sber.orderservice.entities;
+package ru.sber.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.sber.orderservice.entities.enums.EStatusOrders;
-import ru.sber.orderservice.models.ClientOrder;
+import ru.sber.entities.enums.EStatusOrders;
+import ru.sber.models.ClientOrder;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

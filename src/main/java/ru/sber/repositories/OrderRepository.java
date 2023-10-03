@@ -1,9 +1,9 @@
-package ru.sber.orderservice.repositories;
+package ru.sber.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.entities.enums.EStatusOrders;
+import ru.sber.entities.Order;
+import ru.sber.entities.enums.EStatusOrders;
 
 import java.util.List;
 

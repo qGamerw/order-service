@@ -1,16 +1,16 @@
-package ru.sber.orderservice.services;
+package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.entities.enums.EStatusOrders;
-import ru.sber.orderservice.models.CancellationOfOrder;
-import ru.sber.orderservice.models.LimitDishesOrder;
-import ru.sber.orderservice.models.LimitOrder;
-import ru.sber.orderservice.models.LimitOrderRestoran;
-import ru.sber.orderservice.repositories.DishesOrderRepository;
-import ru.sber.orderservice.repositories.OrderRepository;
+import ru.sber.entities.Order;
+import ru.sber.entities.enums.EStatusOrders;
+import ru.sber.models.CancellationOfOrder;
+import ru.sber.models.LimitDishesOrder;
+import ru.sber.models.LimitOrder;
+import ru.sber.models.LimitOrderRestoran;
+import ru.sber.repositories.DishesOrderRepository;
+import ru.sber.repositories.OrderRepository;
 
 import java.util.Arrays;
 import java.util.List;

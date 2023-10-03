@@ -1,9 +1,9 @@
-package ru.sber.orderservice.services;
+package ru.sber.services;
 
-import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.models.CancellationOfOrder;
-import ru.sber.orderservice.models.LimitOrder;
-import ru.sber.orderservice.models.LimitOrderRestoran;
+import ru.sber.entities.Order;
+import ru.sber.models.CancellationOfOrder;
+import ru.sber.models.LimitOrder;
+import ru.sber.models.LimitOrderRestoran;
 
 import java.util.List;
 import java.util.Optional;

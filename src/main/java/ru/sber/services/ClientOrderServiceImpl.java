@@ -1,13 +1,13 @@
-package ru.sber.orderservice.services;
+package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sber.orderservice.entities.DishesOrder;
-import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.models.ClientOrder;
-import ru.sber.orderservice.repositories.DishesOrderRepository;
-import ru.sber.orderservice.repositories.OrderRepository;
+import ru.sber.entities.DishesOrder;
+import ru.sber.entities.Order;
+import ru.sber.models.ClientOrder;
+import ru.sber.repositories.DishesOrderRepository;
+import ru.sber.repositories.OrderRepository;
 
 import java.util.List;
 

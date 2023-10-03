@@ -1,12 +1,12 @@
-package ru.sber.orderservice.controllers;
+package ru.sber.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.models.ClientOrder;
-import ru.sber.orderservice.services.ClientOrderService;
+import ru.sber.entities.Order;
+import ru.sber.models.ClientOrder;
+import ru.sber.services.ClientOrderService;
 
 import java.net.URI;
 import java.util.List;

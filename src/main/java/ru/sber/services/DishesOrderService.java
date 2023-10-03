@@ -1,4 +1,4 @@
-package ru.sber.orderservice.services;
+package ru.sber.services;
 
 public interface DishesOrderService {
 }

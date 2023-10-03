@@ -1,9 +1,9 @@
-package ru.sber.orderservice.models;
+package ru.sber.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.sber.orderservice.entities.DishesOrder;
+import ru.sber.entities.DishesOrder;
 
 @AllArgsConstructor
 @Data

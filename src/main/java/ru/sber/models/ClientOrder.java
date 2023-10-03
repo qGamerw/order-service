@@ -1,7 +1,7 @@
-package ru.sber.orderservice.models;
+package ru.sber.models;
 
 import lombok.Data;
-import ru.sber.orderservice.entities.DishesOrder;
+import ru.sber.entities.DishesOrder;
 
 import java.util.List;
 

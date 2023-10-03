@@ -1,7 +1,7 @@
-package ru.sber.orderservice.services;
+package ru.sber.services;
 
-import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.models.ClientOrder;
+import ru.sber.entities.Order;
+import ru.sber.models.ClientOrder;
 
 import java.util.List;
 
