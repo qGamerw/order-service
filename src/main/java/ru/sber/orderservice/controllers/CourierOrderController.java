@@ -5,11 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.orderservice.models.LimitOrder;
+import ru.sber.orderservice.models.LimitOrderRestoran;
 import ru.sber.orderservice.services.OrderService;
 
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Контроллер для взаимодействия сервером Курьер
+ */
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -23,10 +27,10 @@ public class CourierOrderController {
     }
 
     @GetMapping("/awaiting-delivery")
-    public ResponseEntity<List<LimitOrder>> getActiveListOrder() {
+    public ResponseEntity<List<LimitOrderRestoran>> getActiveListOrder() {
         log.info("Получает заказы со статусами готовится и готов");
 
-        List<LimitOrder> orders = orderService.findAllActiveOrder();
+        List<LimitOrderRestoran> orders = orderService.findAllActiveOrder();
 
         return ResponseEntity.ok()
                 .body(orders);
@@ -35,12 +39,13 @@ public class CourierOrderController {
     @GetMapping("/{idOrder}")
     public ResponseEntity<LimitOrder> cancellationOfOrderById(@PathVariable("idOrder") long id) {
         log.info("Возвращает заказ по id: {}", id);
+
         Optional<LimitOrder> order = orderService.findOrderById(id);
         return order.map(
-                limitOrder -> ResponseEntity.ok()
-                        .body(limitOrder))
-                .orElseGet(
-                        () -> ResponseEntity.notFound().build()
+                        limitOrderCourier -> ResponseEntity.ok()
+                                .body(limitOrderCourier))
+                .orElseGet(() -> ResponseEntity.notFound()
+                        .build()
                 );
     }
 

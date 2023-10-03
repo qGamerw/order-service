@@ -4,30 +4,30 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.orderservice.models.CancellationOfOrder;
-import ru.sber.orderservice.models.LimitOrder;
+import ru.sber.orderservice.models.LimitOrderRestoran;
 import ru.sber.orderservice.services.OrderService;
 
 import java.util.List;
 
 /**
- * Контроллер для взаимодействия {@link ru.sber.orderservice.entities.Order заказами}
+ * Контроллер для взаимодействия сервером Ресторан
  */
 @Slf4j
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("orders")
-public class OrderController {
+public class RestoranOrderController {
     private final OrderService orderService;
 
-    public OrderController(OrderService orderService) {
+    public RestoranOrderController(OrderService orderService) {
         this.orderService = orderService;
     }
 
     @PutMapping
-    public ResponseEntity<?> updateOrderStatus(@RequestBody LimitOrder order) {
-        log.info("Обновляет статус заказа с id {}", order.getId());
+    public ResponseEntity<?> updateOrderStatus(@RequestBody LimitOrderRestoran order) {
+        log.info("Обновляет статус заказа с id {} {}", order.getId(), order.getClientName());
 
-        var isUpdate = orderService.updateOrderStatus(order.getId(), order.getEStatusOrders());
+        var isUpdate = orderService.updateOrderStatus(order.getId(), order.getClientName());
 
         if (isUpdate) {
             return ResponseEntity.ok()
@@ -39,10 +39,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LimitOrder>> getListOrder() {
-        log.info("Получает заказы со статусами на рассмотрении и в процессе");
+    public ResponseEntity<List<LimitOrderRestoran>> getListOrder() {
+        log.info("Получает заказы со статусами на рассмотрении, в процессе готовки и готов");
 
-        List<LimitOrder> orders = orderService.getListOrder();
+        List<LimitOrderRestoran> orders = orderService.getListOrder();
 
         return ResponseEntity.ok()
                 .body(orders);

@@ -3,12 +3,12 @@ package ru.sber.orderservice.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sber.orderservice.entities.DishesOrder;
 import ru.sber.orderservice.entities.Order;
 import ru.sber.orderservice.entities.enums.EStatusOrders;
 import ru.sber.orderservice.models.CancellationOfOrder;
 import ru.sber.orderservice.models.LimitDishesOrder;
 import ru.sber.orderservice.models.LimitOrder;
+import ru.sber.orderservice.models.LimitOrderRestoran;
 import ru.sber.orderservice.repositories.DishesOrderRepository;
 import ru.sber.orderservice.repositories.OrderRepository;
 
@@ -33,13 +33,13 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean updateOrderStatus(long id, EStatusOrders eStatusOrders) {
+    public boolean updateOrderStatus(long id, String eStatusOrders) {
         log.info("Обновляет статус заказа с id {} на статус {}", id, eStatusOrders);
 
         Optional<Order> order = orderRepository.findById(id);
 
         if (order.isPresent()) {
-            order.get().setStatusOrders(eStatusOrders);
+            order.get().setStatusOrders(EStatusOrders.valueOf(eStatusOrders));
             orderRepository.save(order.get());
 
             return true;
@@ -49,16 +49,17 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrder> getListOrder() {
-        log.info("Получает список заказов со статусом: в ожидании, в процессе");
+    public List<LimitOrderRestoran> getListOrder() {
+        log.info("Получает список заказов со статусом: в ожидании, в процессе готовки и готов");
 
         List<EStatusOrders> eStatusOrdersList = Arrays.asList(
-                EStatusOrders.TODO,
-                EStatusOrders.IN_PROCESS);
+                EStatusOrders.REVIEW,
+                EStatusOrders.COOKING,
+                EStatusOrders.COOKED);
 
         return orderRepository.findByStatusOrdersIn(eStatusOrdersList)
                 .stream()
-                .map(LimitOrder::new)
+                .map(getLimitOrderRestoranFunction())
                 .toList();
     }
 
@@ -81,16 +82,16 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrder> findAllActiveOrder() {
+    public List<LimitOrderRestoran> findAllActiveOrder() {
         log.info("Получает список заказов со статусом: готовится, готов");
 
         List<EStatusOrders> eStatusOrdersList = Arrays.asList(
-                EStatusOrders.COOKED,
-                EStatusOrders.IN_PROCESS);
+                EStatusOrders.COOKING,
+                EStatusOrders.COOKED);
 
         return orderRepository.findByStatusOrdersInAndCourierIdNull(eStatusOrdersList)
                 .stream()
-                .map(getLimitOrderFunction())
+                .map(getLimitOrderRestoranFunction())
                 .toList();
     }
 
@@ -135,5 +136,18 @@ public class OrderServiceImp implements OrderService {
         };
     }
 
-
+    /**
+     * Преобразует класс Order {@link Order} в {@link LimitOrderRestoran}
+     *
+     * @return LimitOrderRestoran
+     */
+    private Function<Order, LimitOrderRestoran> getLimitOrderRestoranFunction() {
+        return order -> {
+            List<LimitDishesOrder> dishesOrders = dishesOrderRepository.findAllByOrderId(order.getId())
+                    .stream()
+                    .map(LimitDishesOrder::new)
+                    .toList();
+            return new LimitOrderRestoran(order, dishesOrders);
+        };
+    }
 }

@@ -27,4 +27,10 @@ public class DishesOrder {
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
+
+    public DishesOrder(Long dishId, String dishName, Order order) {
+        this.dishId = dishId;
+        this.dishName = dishName;
+        this.order = order;
+    }
 }

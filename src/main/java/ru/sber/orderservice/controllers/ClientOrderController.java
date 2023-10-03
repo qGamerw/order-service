@@ -2,16 +2,18 @@ package ru.sber.orderservice.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.models.OrderResponse;
-import ru.sber.orderservice.exception.OrderNotFoundException;
+import ru.sber.orderservice.models.ClientOrder;
 import ru.sber.orderservice.services.ClientOrderService;
 
+import java.net.URI;
 import java.util.List;
 
+/**
+ * Контроллер для взаимодействия сервером Клиент
+ */
 @Slf4j
 @RestController
 @RequestMapping("/orders")
@@ -24,33 +26,21 @@ public class ClientOrderController {
         this.clientOrderService = clientOrderService;
     }
 
-    @PostMapping("/create")
-    public Order createOrder(
-            @RequestParam long clientId,
-            @RequestParam String clientName,
-            @RequestParam int clientPhoneNumber,
-            @RequestParam String description,
-            @RequestParam String address,
-            @RequestParam Integer flat,
-            @RequestParam Integer floor,
-            @RequestParam Integer frontDoor,
-            @RequestParam List<Long> dishIds
-    ) {
-        return clientOrderService.createOrder(
-                clientId,
-                clientName,
-                clientPhoneNumber,
-                description,
-                address,
-                flat,
-                floor,
-                frontDoor,
-                dishIds
-        );
+    @PostMapping
+    public ResponseEntity<Void> createOrder(@RequestBody ClientOrder clientOrder) {
+        log.info("Создает заказ c id клиента {}", clientOrder.getClientId());
+
+        return ResponseEntity.created(URI.create("orders/" + clientOrderService.createOrder(clientOrder)))
+                .build();
     }
 
-    @GetMapping("/client/{clientId}")
-    public List<Order> getAllOrdersByClientId(@PathVariable long clientId) {
-        return clientOrderService.getAllOrdersByClientId(clientId);
+    @GetMapping("/client/{id}")
+    public ResponseEntity<?> getOrdersByClientId(@PathVariable long id) {
+        log.info("Получает заказы по id клиента {}", id);
+
+        List<Order> order = clientOrderService.getAllOrdersByClientId(id);
+
+        return ResponseEntity.ok()
+                .body(order);
     }
 }

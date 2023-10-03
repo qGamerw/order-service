@@ -1,7 +1,7 @@
 package ru.sber.orderservice.services;
 
 import ru.sber.orderservice.entities.Order;
-import ru.sber.orderservice.models.OrderResponse;
+import ru.sber.orderservice.models.ClientOrder;
 
 import java.util.List;
 
@@ -12,36 +12,10 @@ public interface ClientOrderService {
     /**
      * Создает заказ
      *
-     * @param clientId id клиента
-     * @param clientName имя клиента
-     * @param clientPhoneNumber номер телефона клиента
-     * @param description описание заказа
-     * @param address адрес доставки
-     * @param flat номер квартиры
-     * @param floor этаж
-     * @param frontDoor номер подъезда
-     * @param dishIds список id блюд в заказе
+     * @param clientOrder заказ клиента
      * @return созданный заказ
      */
-    Order createOrder(
-            long clientId,
-            String clientName,
-            int clientPhoneNumber,
-            String description,
-            String address,
-            Integer flat,
-            Integer floor,
-            Integer frontDoor,
-            List<Long> dishIds
-    );
-
-    /**
-     * Получает заказ с ограниченной информацией по id
-     *
-     * @param orderId id заказа
-     * @return объект заказа
-     */
-    OrderResponse getOrderById(long orderId);
+    Long createOrder(ClientOrder clientOrder);
 
     /**
      * Получает все заказы клиента по его id
