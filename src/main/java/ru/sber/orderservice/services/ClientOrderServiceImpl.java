@@ -19,16 +19,18 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class ClientOrderServiceImpl implements ClientOrderService {
-    private final ClientOrderRepository clientOrderRepository;
+
     private final DishesOrderRepository dishesOrderRepository;
     private final OrderRepository orderRepository;
 
     @Autowired
-    public ClientOrderServiceImpl(ClientOrderRepository clientOrderRepository, DishesOrderRepository dishesOrderRepository, OrderRepository orderRepository) {
-        this.clientOrderRepository = clientOrderRepository;
+    public ClientOrderServiceImpl(DishesOrderRepository dishesOrderRepository, OrderRepository orderRepository) {
         this.dishesOrderRepository = dishesOrderRepository;
         this.orderRepository = orderRepository;
     }
+
+
+
 
     @Override
     public List<Order> getAllOrdersByClientId(long clientId) {
