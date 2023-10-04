@@ -25,9 +25,9 @@ public class RestoranOrderController {
 
     @PutMapping
     public ResponseEntity<?> updateOrderStatus(@RequestBody LimitOrderRestoran order) {
-        log.info("Обновляет статус заказа с id {} {}", order.getId(), order.getClientName());
+        log.info("Обновляет статус заказа с id {}", order);
 
-        var isUpdate = orderService.updateOrderStatus(order.getId(), order.getClientName());
+        var isUpdate = orderService.updateOrderStatus(order.getId(), order. getStatus());
 
         if (isUpdate) {
             return ResponseEntity.ok()

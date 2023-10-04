@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class LimitOrder {
     private Long id;
+    private Long courierId;
     private String clientName;
     private String description;
     private int clientPhone;
@@ -45,6 +46,7 @@ public class LimitOrder {
         this.floor = order.getFloor();
         this.weight = order.getWeight();
         this.endCookingTime = order.getEndCookingTime();
+        this.courierId = order.getCourierId();
         this.dishesOrders = dishesOrder;
     }
 

@@ -20,7 +20,7 @@ public class LimitOrderRestoran {
     private String clientName;
     private String description;
     private int clientPhone;
-    private EStatusOrders eStatusOrders;
+    private String status;
     private LocalDateTime orderTime;
     private List<LimitDishesOrder> dishesOrders;
 
@@ -28,7 +28,7 @@ public class LimitOrderRestoran {
         this.id = order.getId();
         this.clientName = order.getClientName();
         this.clientPhone = order.getClientPhoneNumber();
-        this.eStatusOrders = order.getStatusOrders();
+        this.status = order.getStatusOrders().toString();
         this.orderTime = order.getOrderTime();
         this.description = order.getDescription();
         this.dishesOrders = dishesOrder;

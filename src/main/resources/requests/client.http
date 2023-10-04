@@ -7,7 +7,7 @@ Content-Type: application/json
   "clientId": 1,
   "clientName": "Павел",
   "clientPhoneNumber": 123,
-  "description": "Повара должны быть коренными грузинами",
+  "description": "Повара должны быть",
   "address": "fghstdhts",
   "flat": 12,
   "floor": 3,
@@ -37,7 +37,7 @@ Content-Type: application/json
 
 {
   "id": "1",
-  "clientName": "REVIEW"
+  "status": "COOKING"
 }
 
 ###
@@ -46,4 +46,4 @@ GET localhost:8080/orders/client/1
 
 ###
 # Получает инфо по id заказа
-GET localhost:8080/orders/1
+GET localhost:8080/orders/1Ф

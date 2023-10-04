@@ -29,7 +29,7 @@ public class Order {
     private long clientId;
 
     @Column
-    private long courierId;
+    private Long courierId;
 
     @Column
     private long branchOfficeId;
