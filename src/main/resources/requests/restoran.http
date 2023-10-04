@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
   "id": "1",
-  "clientName": "REVIEW"
+  "status": "REVIEW"
 }
 
 ###

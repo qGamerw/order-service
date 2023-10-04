@@ -49,5 +49,4 @@ public class LimitOrder {
         this.courierId = order.getCourierId();
         this.dishesOrders = dishesOrder;
     }
-
 }
