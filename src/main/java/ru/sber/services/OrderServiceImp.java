@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sber.entities.Order;
 import ru.sber.entities.enums.EStatusOrders;
-import ru.sber.models.CancellationOfOrder;
 import ru.sber.models.LimitDishesOrder;
 import ru.sber.models.LimitOrder;
 import ru.sber.models.LimitOrderRestoran;
@@ -64,15 +63,14 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean cancellationOfOrderById(CancellationOfOrder cancellationOfOrder) {
-        log.info("Отказывается от заказа с id {}}", cancellationOfOrder.getId());
+    public boolean cancellationOfOrderById(Long id, String massage) {
+        log.info("Отказывается от заказа с id {}", id);
 
-        Optional<Order> order = orderRepository.findById(cancellationOfOrder.getId());
+        Optional<Order> order = orderRepository.findById(id);
 
         if (order.isPresent()) {
-
             order.get().setStatusOrders(EStatusOrders.CANCELLED);
-            order.get().setRefusalReason(cancellationOfOrder.getMassage());
+            order.get().setRefusalReason(massage);
             orderRepository.save(order.get());
 
             return true;
