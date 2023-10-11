@@ -101,10 +101,10 @@ public class Order {
         this.flat = clientOrder.getFlat();
         this.frontDoor = clientOrder.getFrontDoor();
         this.floor = clientOrder.getFloor();
+        this.weight = clientOrder.getWeight();
+        this.price = clientOrder.getTotalPrice();
 
         this.orderTime = LocalDateTime.now();
         this.statusOrders = EStatusOrders.NOT_PAID;
-        this.price = BigDecimal.ONE;
-        this.weight = 0;
     }
 }
