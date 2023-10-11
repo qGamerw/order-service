@@ -21,5 +21,5 @@ public class ClientOrder {
     private Integer flat;
     private Integer floor;
     private Integer frontDoor;
-    private List<DishOrder> dishesId;
+    private List<DishOrder> listDishes;
 }
