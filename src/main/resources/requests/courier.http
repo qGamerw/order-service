@@ -15,8 +15,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2O
 
 ###
 # Инфо. о заказе с id _
-GET localhost:8080/orders/26
+GET localhost:8080/orders/27
 
 ###
-# Инфо. о куръере с id _ (лол, нет присвоения заказа куръеру, лол)
+# Инфо. о куръере с id _
 GET localhost:8080/orders/courier/1

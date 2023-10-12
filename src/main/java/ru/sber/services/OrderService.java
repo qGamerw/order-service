@@ -1,7 +1,6 @@
 package ru.sber.services;
 
 import ru.sber.entities.Order;
-import ru.sber.models.CancellationOfOrder;
 import ru.sber.models.LimitOrder;
 import ru.sber.models.LimitOrderRestoran;
 
@@ -17,10 +16,10 @@ public interface OrderService {
      * Обновляет статус заказа
      *
      * @param id            id заказ
-     * @param eStatusOrders статус
+     * @param orderRequest заказ
      * @return boolean
      */
-    boolean updateOrderStatus(long id, LimitOrderRestoran order);
+    boolean updateOrderStatus(long id, LimitOrderRestoran orderRequest);
 
     /**
      * Устанавливает курьера на заказ
@@ -55,9 +54,10 @@ public interface OrderService {
     /**
      * Отменяет заказ
      *
-     * @param cancellationOfOrder id заказа и причина отказа
+     * @param id id заказа
+     * @param massage причина отказа
      */
-    boolean cancellationOfOrderById(CancellationOfOrder cancellationOfOrder);
+    boolean cancellationOfOrderById(Long id, String massage);
 
     /**
      * Возвращает все заказы которые брал курьер
