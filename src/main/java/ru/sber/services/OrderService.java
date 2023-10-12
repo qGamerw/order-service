@@ -23,6 +23,14 @@ public interface OrderService {
     boolean updateOrderStatus(long id, String eStatusOrders);
 
     /**
+     * Устанавливает курьера на заказ
+     * @param idCourier индификатор курьера
+     * @param idOrder индификатор заказа
+     * @return true в случае успеха
+     */
+    boolean updateOrderCourierId(long idCourier, long idOrder);
+
+    /**
      * Получает все заказы со статусом на рассмотрении и в процессе
      *
      * @return List<LimitOrder>
@@ -34,7 +42,7 @@ public interface OrderService {
      *
      * @return список заказов
      */
-    List<LimitOrderRestoran> findAllActiveOrder();
+    List<LimitOrder> findAllActiveOrder();
 
     /**
      * Ищет заказ по id
@@ -58,4 +66,11 @@ public interface OrderService {
      * @return список заказов курьера
      */
     List<LimitOrder> findOrdersByCourierId(long id);
+
+    /**
+     * Возвращает заказы, которые доставляет курьер
+     * @param id индификатор курьера
+     * @return список курьеров
+     */
+    List<LimitOrder> findOrdersCourierIsDelivering(long id);
 }
