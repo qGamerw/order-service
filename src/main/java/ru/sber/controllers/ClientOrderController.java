@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.entities.Order;
 import ru.sber.models.ClientOrder;
+import ru.sber.models.LimitOrderClient;
 import ru.sber.services.ClientOrderService;
 
 import java.net.URI;
@@ -38,7 +38,7 @@ public class ClientOrderController {
     public ResponseEntity<?> getOrdersByClientId(@PathVariable long id) {
         log.info("Получает заказы по id клиента {}", id);
 
-        List<Order> order = clientOrderService.getAllOrdersByClientId(id);
+        List<LimitOrderClient> order = clientOrderService.getAllOrdersByClientId(id);
 
         return ResponseEntity.ok()
                 .body(order);

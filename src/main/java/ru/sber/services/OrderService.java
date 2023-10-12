@@ -19,7 +19,7 @@ public interface OrderService {
      * @param eStatusOrders статус
      * @return boolean
      */
-    boolean updateOrderStatus(long id, String eStatusOrders);
+    boolean updateOrderStatus(long id, LimitOrderRestoran order);
 
     /**
      * Получает все заказы со статусом на рассмотрении и в процессе

@@ -2,6 +2,7 @@ package ru.sber.services;
 
 import ru.sber.entities.Order;
 import ru.sber.models.ClientOrder;
+import ru.sber.models.LimitOrderClient;
 
 import java.util.List;
 
@@ -23,5 +24,5 @@ public interface ClientOrderService {
      * @param clientId id клиента
      * @return список заказов клиента
      */
-    List<Order> getAllOrdersByClientId(long clientId);
+    List<LimitOrderClient> getAllOrdersByClientId(long clientId);
 }

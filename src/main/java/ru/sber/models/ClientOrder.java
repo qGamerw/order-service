@@ -2,6 +2,7 @@ package ru.sber.models;
 
 import lombok.Data;
 import ru.sber.entities.DishOrder;
+import ru.sber.entities.Order;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -21,5 +22,5 @@ public class ClientOrder {
     private Integer flat;
     private Integer floor;
     private Integer frontDoor;
-    private List<DishOrder> dishesId;
+    private List<DishOrder> listDishes;
 }

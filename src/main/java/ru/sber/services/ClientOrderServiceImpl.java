@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.sber.entities.DishOrder;
 import ru.sber.entities.Order;
 import ru.sber.models.ClientOrder;
+import ru.sber.models.LimitOrderClient;
+import ru.sber.models.LimitDishesOrder;
 import ru.sber.repositories.DishesOrderRepository;
 import ru.sber.repositories.OrderRepository;
 
 import java.util.List;
+import java.util.function.Function;
 
 @Slf4j
 @Service
@@ -30,7 +33,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 
         Order order = orderRepository.save(new Order(clientOrder));
 
-        List<DishOrder> dishOrders = clientOrder.getDishesId()
+        List<DishOrder> dishOrders = clientOrder.getListDishes()
                 .stream()
                 .map(dishId -> new DishOrder(dishId.getDishId(), dishId.getDishName(), order , dishId.getQuantity()))
                 .toList();
@@ -41,9 +44,26 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     }
 
     @Override
-    public List<Order> getAllOrdersByClientId(long clientId) {
+    public List<LimitOrderClient> getAllOrdersByClientId(long clientId) {
         log.info("Получаем все заказы клиента с id {}", clientId);
 
-        return orderRepository.findOrderByClientId(clientId);
+        return orderRepository.findOrderByClientId(clientId).stream()
+                .map(getLimitOrderRestoranFunction())
+                .toList();
+    }
+
+    /**
+     * Преобразует класс Order {@link Order} в {@link LimitOrderClient}
+     *
+     * @return ClientOrder
+     */
+    private Function<Order, LimitOrderClient> getLimitOrderRestoranFunction() {
+        return order -> {
+            List<LimitDishesOrder> dishesOrders = dishesOrderRepository.findAllByOrderId(order.getId())
+                    .stream()
+                    .map(LimitDishesOrder::new)
+                    .toList();
+            return new LimitOrderClient(order, dishesOrders);
+        };
     }
 }

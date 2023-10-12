@@ -28,7 +28,7 @@ public class RestoranOrderController {
     public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestoran order) {
         log.info("Обновляет статус заказа с id {}", id);
 
-        var isUpdate = orderService.updateOrderStatus(id, order.getStatus());
+        var isUpdate = orderService.updateOrderStatus(id, order);
 
         if (isUpdate) {
             return ResponseEntity.ok()

@@ -1,21 +1,22 @@
 ###
-
-PUT localhost:8080/orders
+# Обновляет статус заказа
+PUT localhost:8080/orders/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 
 {
-  "id": "2",
   "status": "COOKING"
 }
 
 ###
-
+# Все заказы для куръеров
 GET localhost:8080/orders/awaiting-delivery
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 
 ###
-GET localhost:8080/orders/6
+# Инфо. о заказе с id _
+GET localhost:8080/orders/26
 
 ###
+# Инфо. о куръере с id _ (лол, нет присвоения заказа куръеру, лол)
 GET localhost:8080/orders/courier/1

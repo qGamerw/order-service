@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.sber.entities.enums.EStatusOrders;
 import ru.sber.models.ClientOrder;
+import ru.sber.models.LimitOrderClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

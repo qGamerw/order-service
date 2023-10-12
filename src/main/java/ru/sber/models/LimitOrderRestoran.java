@@ -22,8 +22,11 @@ public class LimitOrderRestoran {
     private int clientPhone;
     private String status;
     private LocalDateTime orderTime;
+    private LocalDateTime orderCookingTime;
+    private LocalDateTime orderCookedTime;
     private String address;
     private String branchAddress;
+    private Long branchId;
     private List<LimitDishesOrder> dishesOrders;
 
     public LimitOrderRestoran(Order order, List<LimitDishesOrder> dishesOrder) {
@@ -32,9 +35,12 @@ public class LimitOrderRestoran {
         this.clientPhone = order.getClientPhoneNumber();
         this.status = order.getStatusOrders().toString();
         this.orderTime = order.getOrderTime();
+        this.orderCookingTime = order.getStartCookingTime();
+        this.orderCookedTime = order.getEndCookingTime();
         this.description = order.getDescription();
         this.dishesOrders = dishesOrder;
         this.address = order.getAddress();
         this.branchAddress = order.getBranchAddress();
+        this.branchId = order.getBranchOfficeId();
     }
 }

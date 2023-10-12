@@ -1,7 +1,20 @@
 ###
-# Обновляет статус заказа
+# Обновляет статус заказа COOKING
 
-PUT localhost:8080/orders/6
+PUT localhost:8080/orders/26
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "status": "COOKING",
+  "branchId": 1,
+  "branchAddress": "address"
+}
+
+###
+# Обновляет статус заказа COOKED
+
+PUT localhost:8080/orders/26
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 
@@ -18,7 +31,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2O
 ###
 # Отменяет заказ
 
-PUT localhost:8080 /orders/1/cancel
+PUT localhost:8080/orders/26/cancel
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 

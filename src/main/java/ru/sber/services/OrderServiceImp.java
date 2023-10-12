@@ -11,6 +11,7 @@ import ru.sber.models.LimitOrderRestoran;
 import ru.sber.repositories.DishesOrderRepository;
 import ru.sber.repositories.OrderRepository;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -32,13 +33,27 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean updateOrderStatus(long id, String eStatusOrders) {
-        log.info("Обновляет статус заказа с id {} на статус {}", id, eStatusOrders);
+    public boolean updateOrderStatus(long id, LimitOrderRestoran orderRequest) {
+        log.info("Обновляет статус заказа с id {} на статус {}", id, orderRequest.getStatus());
 
         Optional<Order> order = orderRepository.findById(id);
 
         if (order.isPresent()) {
-            order.get().setStatusOrders(EStatusOrders.valueOf(eStatusOrders));
+            switch (orderRequest.getStatus()) {
+                case "COOKING" -> {
+                    order.get().setStartCookingTime(LocalDateTime.now());
+                    order.get().setBranchOfficeId(orderRequest.getBranchId());
+                    order.get().setBranchAddress(orderRequest.getBranchAddress());
+                }
+                case "COOKED" -> {
+                    order.get().setEndCookingTime(LocalDateTime.now());
+                }
+                case "DELIVERY" -> {
+                    order.get().setDeliveryTime(LocalDateTime.now());
+                }
+            }
+
+            order.get().setStatusOrders(EStatusOrders.valueOf(orderRequest.getStatus()));
             orderRepository.save(order.get());
 
             return true;
