@@ -1,6 +1,7 @@
 package ru.sber.services;
 
 import ru.sber.entities.Order;
+import ru.sber.models.CancellationOfOrder;
 import ru.sber.models.LimitOrder;
 import ru.sber.models.LimitOrderRestoran;
 
@@ -22,6 +23,14 @@ public interface OrderService {
     boolean updateOrderStatus(long id, LimitOrderRestoran order);
 
     /**
+     * Устанавливает курьера на заказ
+     * @param idCourier индификатор курьера
+     * @param idOrder индификатор заказа
+     * @return true в случае успеха
+     */
+    boolean updateOrderCourierId(long idCourier, long idOrder);
+
+    /**
      * Получает все заказы со статусом на рассмотрении и в процессе
      *
      * @return List<LimitOrder>
@@ -33,7 +42,7 @@ public interface OrderService {
      *
      * @return список заказов
      */
-    List<LimitOrderRestoran> findAllActiveOrder();
+    List<LimitOrder> findAllActiveOrder();
 
     /**
      * Ищет заказ по id
@@ -46,10 +55,9 @@ public interface OrderService {
     /**
      * Отменяет заказ
      *
-     * @param id id заказа
-     * @param massage причина отказа
+     * @param cancellationOfOrder id заказа и причина отказа
      */
-    boolean cancellationOfOrderById(Long id, String massage);
+    boolean cancellationOfOrderById(CancellationOfOrder cancellationOfOrder);
 
     /**
      * Возвращает все заказы которые брал курьер
@@ -58,4 +66,11 @@ public interface OrderService {
      * @return список заказов курьера
      */
     List<LimitOrder> findOrdersByCourierId(long id);
+
+    /**
+     * Возвращает заказы, которые доставляет курьер
+     * @param id индификатор курьера
+     * @return список курьеров
+     */
+    List<LimitOrder> findOrdersCourierIsDelivering(long id);
 }

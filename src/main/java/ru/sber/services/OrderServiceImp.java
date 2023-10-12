@@ -63,6 +63,18 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public boolean updateOrderCourierId(long idCourier, long idOrder) {
+        log.info("Обновляет курьера (id={}) заказа с id {}", idCourier, idOrder);
+        Optional<Order> order = orderRepository.findById(idOrder);
+        if(order.isPresent()) {
+            order.get().setCourierId(idCourier);
+            orderRepository.save(order.get());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public List<LimitOrderRestoran> getListOrder() {
         log.info("Получает список заказов со статусом: в ожидании, в процессе готовки и готов");
 
@@ -95,7 +107,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrderRestoran> findAllActiveOrder() {
+    public List<LimitOrder> findAllActiveOrder() {
         log.info("Получает список заказов со статусом: готовится, готов");
 
         List<EStatusOrders> eStatusOrdersList = Arrays.asList(
@@ -104,7 +116,7 @@ public class OrderServiceImp implements OrderService {
 
         return orderRepository.findByStatusOrdersInAndCourierIdNull(eStatusOrdersList)
                 .stream()
-                .map(getLimitOrderRestoranFunction())
+                .map(getLimitOrderFunction())
                 .toList();
     }
 
@@ -129,6 +141,14 @@ public class OrderServiceImp implements OrderService {
     @Override
     public List<LimitOrder> findOrdersByCourierId(long id) {
         return orderRepository.findOrderByCourierId(id)
+                .stream()
+                .map(getLimitOrderFunction())
+                .toList();
+    }
+
+    @Override
+    public List<LimitOrder> findOrdersCourierIsDelivering(long id) {
+        return orderRepository.findOrderByCourierIdAndStatusOrdersNot(id, EStatusOrders.CANCELLED)
                 .stream()
                 .map(getLimitOrderFunction())
                 .toList();

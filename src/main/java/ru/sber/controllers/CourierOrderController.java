@@ -26,18 +26,43 @@ public class CourierOrderController {
         this.orderService = orderService;
     }
 
+    @PutMapping("/courier")
+    public ResponseEntity<?> updateOrderCourier(@RequestBody LimitOrder order) {
+        log.info("Обновляет id курьера у заказа с id {}", order.getId());
+
+        var isUpdate = orderService.updateOrderCourierId(order.getCourierId(), order.getId());
+
+        if (isUpdate) {
+            return ResponseEntity.ok()
+                    .build();
+        } else {
+            return ResponseEntity.badRequest()
+                    .build();
+        }
+    }
+
     @GetMapping("/awaiting-delivery")
-    public ResponseEntity<List<LimitOrderRestoran>> getActiveListOrder() {
+    public ResponseEntity<List<LimitOrder>> getActiveListOrder() {
         log.info("Получает заказы со статусами готовится и готов");
 
-        List<LimitOrderRestoran> orders = orderService.findAllActiveOrder();
+        List<LimitOrder> orders = orderService.findAllActiveOrder();
+
+        return ResponseEntity.ok()
+                .body(orders);
+    }
+
+    @GetMapping("/delivering/courier/{idCourier}")
+    public ResponseEntity<List<LimitOrder>> getOrdersIsDelivering(@PathVariable("idCourier") long id) {
+        log.info("Получает заказы со статусами готовится и готов");
+
+        List<LimitOrder> orders = orderService.findOrdersCourierIsDelivering(id);
 
         return ResponseEntity.ok()
                 .body(orders);
     }
 
     @GetMapping("/{idOrder}")
-    public ResponseEntity<LimitOrder> cancellationOfOrderById(@PathVariable("idOrder") long id) {
+    public ResponseEntity<LimitOrder> getOrderById(@PathVariable("idOrder") long id) {
         log.info("Возвращает заказ по id: {}", id);
 
         Optional<LimitOrder> order = orderService.findOrderById(id);
