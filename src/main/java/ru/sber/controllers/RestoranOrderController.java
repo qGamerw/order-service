@@ -3,8 +3,9 @@ package ru.sber.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.models.CancellationOfOrder;
+import ru.sber.entities.Order;
 import ru.sber.models.LimitOrderRestoran;
+import ru.sber.models.Message;
 import ru.sber.services.OrderService;
 
 import java.util.List;
@@ -23,11 +24,11 @@ public class RestoranOrderController {
         this.orderService = orderService;
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateOrderStatus(@RequestBody LimitOrderRestoran order) {
-        log.info("Обновляет статус заказа с id {}", order);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestoran order) {
+        log.info("Обновляет статус заказа с id {}", id);
 
-        var isUpdate = orderService.updateOrderStatus(order.getId(), order. getStatus());
+        var isUpdate = orderService.updateOrderStatus(id, order.getStatus());
 
         if (isUpdate) {
             return ResponseEntity.ok()
@@ -48,11 +49,11 @@ public class RestoranOrderController {
                 .body(orders);
     }
 
-    @PutMapping("/cancel")
-    public ResponseEntity<?> cancellationOfOrderById(@RequestBody CancellationOfOrder cancellationOfOrder) {
-        log.info("Отменяет заказ");
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<?> cancellationOfOrderById(@PathVariable Long id, @RequestBody Message message) {
+        log.info("Отменяет заказ с id {}", id);
 
-        var isCancel = orderService.cancellationOfOrderById(cancellationOfOrder);
+        var isCancel = orderService.cancellationOfOrderById(id, message.getMessage());
 
         if (isCancel) {
             return ResponseEntity.accepted()
@@ -62,5 +63,4 @@ public class RestoranOrderController {
                     .build();
         }
     }
-
 }

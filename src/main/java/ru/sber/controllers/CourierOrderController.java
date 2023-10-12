@@ -83,6 +83,4 @@ public class CourierOrderController {
         return ResponseEntity.ok()
                 .body(orders);
     }
-
 }
-

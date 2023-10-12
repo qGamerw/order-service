@@ -3,7 +3,7 @@ package ru.sber.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.sber.entities.DishesOrder;
+import ru.sber.entities.DishOrder;
 import ru.sber.entities.Order;
 import ru.sber.models.ClientOrder;
 import ru.sber.repositories.DishesOrderRepository;
@@ -30,12 +30,12 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 
         Order order = orderRepository.save(new Order(clientOrder));
 
-        List<DishesOrder> dishesOrders = clientOrder.getDishesId()
+        List<DishOrder> dishOrders = clientOrder.getListDishes()
                 .stream()
-                .map(dishId -> new DishesOrder(dishId.getDishId(), dishId.getDishName(), order))
+                .map(dishId -> new DishOrder(dishId.getDishId(), dishId.getDishName(), order , dishId.getQuantity()))
                 .toList();
 
-        dishesOrderRepository.saveAll(dishesOrders);
+        dishesOrderRepository.saveAll(dishOrders);
 
         return order.getId();
     }

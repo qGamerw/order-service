@@ -8,22 +8,27 @@ Content-Type: application/json
   "clientName": "Павел",
   "clientPhoneNumber": 123,
   "description": "Повара должны быть",
-  "address": "fghstdhts",
+  "address": "Вологда, ул. мира, д. 7",
   "flat": 12,
   "floor": 3,
+  "totalPrice": 100,
   "frontDoor": 2,
+  "weight": 100,
   "dishesId": [
     {
       "dishId": 1,
-      "dishName": "dfd"
+      "dishName": "dfd",
+      "quantity": 10
     },
     {
       "dishId": 2,
-      "dishName": "dfd"
+      "dishName": "dfd",
+      "quantity": 10
     },
     {
       "dishId": 3,
-      "dishName": "dfd"
+      "dishName": "dfd",
+      "quantity": 10
     }
   ]
 }
@@ -31,12 +36,11 @@ Content-Type: application/json
 ###
 # Обновляет статус заказа
 
-PUT localhost:8080/orders
+PUT localhost:8080/orders/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 
 {
-  "id": "1",
   "status": "COOKING"
 }
 
@@ -46,4 +50,4 @@ GET localhost:8080/orders/client/1
 
 ###
 # Получает инфо по id заказа
-GET localhost:8080/orders/1Ф
+GET localhost:8080/orders/6
