@@ -2,7 +2,6 @@ package ru.sber.models;
 
 import lombok.Data;
 import ru.sber.entities.DishOrder;
-import ru.sber.entities.Order;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -16,11 +15,11 @@ public class ClientOrder {
     private String clientName;
     private String clientPhoneNumber;
     private BigDecimal totalPrice;
-    private Integer weight;
+    private Integer totalWeight;
     private String description;
     private String address;
     private Integer flat;
     private Integer floor;
     private Integer frontDoor;
-    private List<DishOrder> listDishes;
+    private List<DishOrder> listDishesFromOrder;
 }

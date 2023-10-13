@@ -33,7 +33,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 
         Order order = orderRepository.save(new Order(clientOrder));
 
-        List<DishOrder> dishOrders = clientOrder.getListDishes()
+        List<DishOrder> dishOrders = clientOrder.getListDishesFromOrder()
                 .stream()
                 .map(dishId -> new DishOrder(dishId.getDishId(), dishId.getDishName(), order , dishId.getQuantity()))
                 .toList();

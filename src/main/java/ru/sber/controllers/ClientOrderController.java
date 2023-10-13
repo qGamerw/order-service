@@ -35,12 +35,13 @@ public class ClientOrderController {
     }
 
     @GetMapping("/client/{id}")
-    public ResponseEntity<?> getOrdersByClientId(@PathVariable long id) {
-        log.info("Получает заказы по id клиента {}", id);
+    public ResponseEntity<List<LimitOrderClient>> getOrdersByClientId(@PathVariable long id) {
 
-        List<LimitOrderClient> order = clientOrderService.getAllOrdersByClientId(id);
+        log.info("Получает заказы по id клиента {}", id);
+        List<LimitOrderClient> orders = clientOrderService.getAllOrdersByClientId(id);
+        log.info("Заказы пользователя: {}", orders);
 
         return ResponseEntity.ok()
-                .body(order);
+                .body(orders);
     }
 }

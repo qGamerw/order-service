@@ -101,7 +101,7 @@ public class Order {
         this.flat = clientOrder.getFlat();
         this.frontDoor = clientOrder.getFrontDoor();
         this.floor = clientOrder.getFloor();
-        this.weight = clientOrder.getWeight();
+        this.weight = clientOrder.getTotalWeight();
         this.totalPrice = clientOrder.getTotalPrice();
 
         this.orderTime = LocalDateTime.now();
