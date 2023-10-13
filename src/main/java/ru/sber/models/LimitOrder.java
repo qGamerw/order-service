@@ -20,7 +20,7 @@ public class LimitOrder {
     private Long courierId;
     private String clientName;
     private String description;
-    private int clientPhone;
+    private String clientPhone;
     private EStatusOrders eStatusOrders;
     private LocalDateTime orderTime;
     private String address;

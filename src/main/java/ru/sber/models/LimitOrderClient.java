@@ -14,7 +14,7 @@ public class LimitOrderClient {
     private long id;
     private long clientId;
     private String clientName;
-    private int clientPhoneNumber;
+    private String clientPhoneNumber;
     private BigDecimal totalPrice;
     private Integer weight;
     private String description;
@@ -31,7 +31,7 @@ public class LimitOrderClient {
         this.clientId = order.getClientId();
         this.clientName = order.getClientName();
         this.clientPhoneNumber = order.getClientPhoneNumber();
-        this.totalPrice = order.getPrice();
+        this.totalPrice = order.getTotalPrice();
         this.weight = order.getWeight();
         this.description = order.getDescription();
         this.refusalReason = order.getRefusalReason();

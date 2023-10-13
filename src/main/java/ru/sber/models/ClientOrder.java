@@ -14,7 +14,7 @@ import java.util.List;
 public class ClientOrder {
     private long clientId;
     private String clientName;
-    private int clientPhoneNumber;
+    private String clientPhoneNumber;
     private BigDecimal totalPrice;
     private Integer weight;
     private String description;

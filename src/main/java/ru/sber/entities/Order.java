@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.sber.entities.enums.EStatusOrders;
 import ru.sber.models.ClientOrder;
-import ru.sber.models.LimitOrderClient;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -44,7 +43,7 @@ public class Order {
     private String description;
 
     @Column(nullable = false)
-    private int clientPhoneNumber;
+    private String clientPhoneNumber;
 
     @Column(nullable = false)
     private String address;
@@ -88,7 +87,7 @@ public class Order {
     private LocalDateTime deliveryTime;
 
     @Column(nullable = false)
-    private BigDecimal price;
+    private BigDecimal totalPrice;
 
     @Column
     private String refusalReason;
@@ -103,7 +102,7 @@ public class Order {
         this.frontDoor = clientOrder.getFrontDoor();
         this.floor = clientOrder.getFloor();
         this.weight = clientOrder.getWeight();
-        this.price = clientOrder.getTotalPrice();
+        this.totalPrice = clientOrder.getTotalPrice();
 
         this.orderTime = LocalDateTime.now();
         this.statusOrders = EStatusOrders.NOT_PAID;

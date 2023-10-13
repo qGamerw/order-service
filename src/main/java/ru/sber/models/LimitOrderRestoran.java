@@ -19,7 +19,7 @@ public class LimitOrderRestoran {
     private Long id;
     private String clientName;
     private String description;
-    private int clientPhone;
+    private String clientPhone;
     private String status;
     private LocalDateTime orderTime;
     private LocalDateTime orderCookingTime;

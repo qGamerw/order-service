@@ -28,7 +28,7 @@ public class ClientOrderController {
 
     @PostMapping
     public ResponseEntity<Void> createOrder(@RequestBody ClientOrder clientOrder) {
-        log.info("Создает заказ c id клиента {}", clientOrder.getClientId());
+        log.info("Создает заказ клиента {}", clientOrder);
 
         return ResponseEntity.created(URI.create("orders/" + clientOrderService.createOrder(clientOrder)))
                 .build();
