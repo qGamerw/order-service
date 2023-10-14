@@ -15,7 +15,7 @@ public class ClientOrder {
     private String clientName;
     private String clientPhoneNumber;
     private BigDecimal totalPrice;
-    private Integer totalWeight;
+    private Integer weight;
     private String description;
     private String address;
     private Integer flat;

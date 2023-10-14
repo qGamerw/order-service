@@ -1,5 +1,6 @@
 package ru.sber.services;
 
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,10 @@ public class ClientOrderServiceImpl implements ClientOrderService {
         this.orderRepository = orderRepository;
     }
 
+    @Transactional
     @Override
     public Long createOrder(ClientOrder clientOrder) {
-        log.info("Создаем заказ клиента с id {}", clientOrder.getClientId());
+        log.info("Создаем заказ клиента с id {}", clientOrder);
 
         Order order = orderRepository.save(new Order(clientOrder));
 

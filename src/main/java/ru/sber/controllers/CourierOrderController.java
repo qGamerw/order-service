@@ -53,7 +53,7 @@ public class CourierOrderController {
 
     @GetMapping("/delivering/courier/{idCourier}")
     public ResponseEntity<List<LimitOrder>> getOrdersIsDelivering(@PathVariable("idCourier") long id) {
-        log.info("Получает заказы со статусами готовится и готов");
+        log.info("Получает заказы которые доставляет курьер");
 
         List<LimitOrder> orders = orderService.findOrdersCourierIsDelivering(id);
 
