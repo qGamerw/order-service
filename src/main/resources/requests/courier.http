@@ -1,0 +1,34 @@
+###
+# Обновляет статус заказа
+PUT localhost:8083/orders/4
+Content-Type: application/json
+
+{
+  "status": "COOKED"
+}
+
+###
+# Присваивает курьеру заказ
+PUT localhost:8083/orders/courier
+Content-Type: application/json
+
+{
+  "id": "4",
+  "courierId": "1"
+}
+
+###
+# Заказы ожидающие курьера
+GET localhost:8083/orders/awaiting-delivery
+
+###
+# Инфо. о заказе с id _
+GET localhost:8083/orders/4
+
+###
+# Инфо. о куръере с id _
+GET localhost:8083/orders/courier/1
+
+###
+# Инфо. о куръере с id _
+GET localhost:8083/orders/delivering/courier/1
