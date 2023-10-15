@@ -7,6 +7,8 @@ import ru.sber.models.LimitOrderRestoran;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+
 /**
  * Сервис для взаимодействия с {@link Order заказом}
  */
@@ -42,6 +44,13 @@ public interface OrderService {
      * @return список заказов
      */
     List<LimitOrder> findAllActiveOrder();
+
+    /**
+     * Ищет список заказов которые готовятся или уже готовы, но не доставляются
+     *
+     * @return список заказов ограниченный страницей
+     */
+    Page<LimitOrder> findAllActiveOrdersByPage(int page, int pageSize);
 
     /**
      * Ищет заказ по id
