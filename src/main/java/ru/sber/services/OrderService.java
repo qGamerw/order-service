@@ -61,6 +61,13 @@ public interface OrderService {
     Optional<LimitOrder> findOrderById(long id);
 
     /**
+     * Оплачивает заказ и изменяет статус заказа
+     *
+     * @param idOrder идентификатор заказа
+     */
+    boolean paymentOfOrderById(long idOrder);
+
+    /**
      * Отменяет заказ
      *
      * @param id id заказа

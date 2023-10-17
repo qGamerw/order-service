@@ -90,6 +90,22 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public boolean paymentOfOrderById(long idOrder) {
+        log.info("Оплачивается заказ с id {}", idOrder);
+
+        Optional<Order> order = orderRepository.findById(idOrder);
+
+        if (order.isPresent()) {
+            order.get().setStatusOrders(EStatusOrders.REVIEW);
+            orderRepository.save(order.get());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean cancellationOfOrderById(Long id, String massage) {
         log.info("Отказывается от заказа с id {}", id);
 
