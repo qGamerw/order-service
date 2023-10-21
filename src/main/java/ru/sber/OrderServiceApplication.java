@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
 
+import ru.sber.models.kafka_models.PageModel;
+
 @SpringBootApplication
 public class OrderServiceApplication {
 
@@ -13,13 +15,14 @@ public class OrderServiceApplication {
         SpringApplication.run(OrderServiceApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner commandLineRunner(KafkaTemplate<String, String> kafkaTemplate){
-        return args -> {
-            for (int i = 0; i < 2; i++) {
-                kafkaTemplate.send("self_messages_topic", "Kafka Test " + i);
-            }
-        };
-    }
+    // Do not try to uncomment code below
+    // @Bean
+    // CommandLineRunner commandLineRunner(KafkaTemplate<String, PageModel> kafkaTemplate){
+    //     return args -> {
+    //         for (int i = 0; i < 1; i++) {
+    //             kafkaTemplate.send("get_awaiting_delivery_by_page", new PageModel(1, 10));
+    //         }
+    //     };
+    // }
 
 }
