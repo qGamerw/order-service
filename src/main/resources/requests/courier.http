@@ -22,6 +22,10 @@ Content-Type: application/json
 GET localhost:8083/orders/awaiting-delivery
 
 ###
+# Заказы по страницам ожидающие курьера
+GET http://localhost:8083/orders/awaiting-delivery/by-page?page=0&pageSize=10
+
+###
 # Инфо. о заказе с id _
 GET localhost:8083/orders/4
 

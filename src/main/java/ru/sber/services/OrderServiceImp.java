@@ -2,6 +2,9 @@ package ru.sber.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.sber.entities.Order;
 import ru.sber.entities.enums.EStatusOrders;
@@ -87,6 +90,22 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public boolean paymentOfOrderById(long idOrder) {
+        log.info("Оплачивается заказ с id {}", idOrder);
+
+        Optional<Order> order = orderRepository.findById(idOrder);
+
+        if (order.isPresent()) {
+            order.get().setStatusOrders(EStatusOrders.REVIEW);
+            orderRepository.save(order.get());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public boolean cancellationOfOrderById(Long id, String massage) {
         log.info("Отказывается от заказа с id {}", id);
 
@@ -116,6 +135,19 @@ public class OrderServiceImp implements OrderService {
                 .map(getLimitOrderFunction())
                 .toList();
     }
+
+    @Override
+    public Page<LimitOrder> findAllActiveOrdersByPage(int page, int pageSize) {
+        log.info("Получает список заказов со статусом: готовится, готов, ограниченный страницей");
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        List<EStatusOrders> eStatusOrdersList = Arrays.asList(
+                EStatusOrders.COOKING,
+                EStatusOrders.COOKED);
+
+        return orderRepository.findByStatusOrdersInAndCourierIdNull(eStatusOrdersList, pageable)
+                .map(getLimitOrderFunction());
+   }
 
     @Override
     public Optional<LimitOrder> findOrderById(long id) {

@@ -3,7 +3,6 @@ package ru.sber.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.entities.Order;
 import ru.sber.models.LimitOrderRestoran;
 import ru.sber.models.Message;
 import ru.sber.services.OrderService;
@@ -47,6 +46,21 @@ public class RestoranOrderController {
 
         return ResponseEntity.ok()
                 .body(orders);
+    }
+
+    @PutMapping("/{id}/payment")
+    public ResponseEntity<?> paymentOfOrderById(@PathVariable Long id) {
+        log.info("Оплачивает заказ с id {}", id);
+
+        boolean isPaid = orderService.paymentOfOrderById(id);
+
+        if (isPaid) {
+            return ResponseEntity.accepted()
+                    .build();
+        } else {
+            return ResponseEntity.badRequest()
+                    .build();
+        }
     }
 
     @PutMapping("/{id}/cancel")

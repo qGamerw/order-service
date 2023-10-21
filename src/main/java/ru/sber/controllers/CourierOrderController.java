@@ -2,6 +2,7 @@ package ru.sber.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.models.LimitOrderRestoran;
@@ -46,6 +47,16 @@ public class CourierOrderController {
         log.info("Получает заказы со статусами готовится и готов");
 
         List<LimitOrder> orders = orderService.findAllActiveOrder();
+
+        return ResponseEntity.ok()
+                .body(orders);
+    }
+
+    @GetMapping("/awaiting-delivery/by-page")
+    public ResponseEntity<Page<LimitOrder>> getActiveListOrder(@RequestParam int page, @RequestParam int pageSize) {
+        log.info("Получает заказы со статусами готовится и готов, ограниченный страницей");
+
+        Page<LimitOrder> orders = orderService.findAllActiveOrdersByPage(page, pageSize);
 
         return ResponseEntity.ok()
                 .body(orders);
