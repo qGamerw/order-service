@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.LongDeserializer;
 import org.apache.kafka.common.serialization.LongSerializer;
+import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,8 +32,8 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfig() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return props;
     }
 
@@ -52,8 +54,8 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfigOfLong() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, LongSerializer.class);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class);
         return props;
     }
 
@@ -74,8 +76,8 @@ public class KafkaConsumerConfig {
     public Map<String, Object> consumerConfigOfJson() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         return props;
     }
 
@@ -106,15 +108,16 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, LimitOrder> consumerFactoryOfLimitOrder() {
+    public ConsumerFactory<String, Object> consumerFactoryOfLimitOrder() {
         return new DefaultKafkaConsumerFactory<>(consumerConfigOfJson());
     }
     @Bean
     public KafkaListenerContainerFactory<
-            ConcurrentMessageListenerContainer<String, LimitOrder>> factoryOfLimitOrder(
-            ConsumerFactory<String, LimitOrder> consumerFactoryOfLimitOrder){
-        ConcurrentKafkaListenerContainerFactory<String, LimitOrder> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactoryOfLimitOrder());
+            ConcurrentMessageListenerContainer<String, Object>> factoryOfLimitOrder(
+            ConsumerFactory<String, Object> consumerFactoryOfLimitOrder){
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactoryOfLimitOrder);
+        factory.getContainerProperties().setGroupId("updateCourierOrder");
         return factory;
     }
 }

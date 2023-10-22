@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -11,6 +14,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.sber.entities.Order;
 import ru.sber.models.LimitOrder;
 import ru.sber.models.kafka_models.PageModel;
 import ru.sber.services.OrderService;
@@ -23,7 +27,7 @@ public class CourierKafkaListeners {
     private KafkaTemplate<String, Page<LimitOrder>> kafkaLimitOrderPageTemplate;
     private KafkaTemplate<String, Optional<LimitOrder>> kafkaLimitOrderTemplate;
     private KafkaTemplate<String, Boolean> kafkaBooleanTemplate;
-
+    ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
     public CourierKafkaListeners(OrderService orderService, 
@@ -75,9 +79,11 @@ public class CourierKafkaListeners {
     }
 
     @KafkaListener(topics = "update_courier_order", groupId = "updateCourierOrder")
-    void courierOrderListener(LimitOrder order) {
-        log.info("Обновляет id курьера у заказа с id {}", order.getId());
-
+    void courierOrderListener(ConsumerRecord<String, Object> record) throws JsonProcessingException {
+        log.info("Обновляет id курьера у заказа с id {}", record);
+        String value = record.value().toString();
+        LimitOrder order = objectMapper.readValue(value, LimitOrder.class);
+        log.info("Order: {}", order);
         kafkaBooleanTemplate.send("courier_order", orderService.updateOrderCourierId(order.getCourierId(), order.getId()));
     }
 }
