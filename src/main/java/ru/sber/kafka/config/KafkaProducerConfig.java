@@ -47,26 +47,6 @@ public class KafkaProducerConfig {
         return new KafkaTemplate<>(producerFactory);
     }
 
-    // 
-    public Map<String, Object> producerConfigOfLong() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, LongSerializer.class);
-        return props;
-    }
-
-    @Bean
-    public ProducerFactory<String, Long> producerFactoryOfLong() {
-        return new DefaultKafkaProducerFactory<>(producerConfigOfLong());
-    }
-
-    @Bean
-    public KafkaTemplate<String, Long> kafkaTemplateOfLong(
-        ProducerFactory<String, Long> producerFactoryOfLong) {
-        return new KafkaTemplate<>(producerFactoryOfLong);
-    }
-
 
     public Map<String, Object> producerConfigOfJson() {
         Map<String, Object> props = new HashMap<>();
@@ -74,6 +54,17 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         return props;
+    }
+
+    @Bean
+    public ProducerFactory<String, Long> producerFactoryOfLongJson() {
+        return new DefaultKafkaProducerFactory<>(producerConfigOfJson());
+    }
+
+    @Bean
+    public KafkaTemplate<String, Long> kafkaTemplateOfLongJson(
+        ProducerFactory<String, Long> producerFactoryOfLongJson) {
+        return new KafkaTemplate<>(producerFactoryOfLongJson);
     }
 
     @Bean

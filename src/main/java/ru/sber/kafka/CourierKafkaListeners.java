@@ -43,17 +43,13 @@ public class CourierKafkaListeners {
     }
 
     @KafkaListener(topics = "get_awaiting_delivery_by_page", groupId = "getAwaitingDeliveryByPage")
-    // This doesn't work, it's List, Java sees it as List, Java outputs it as List but Java can't work with it AS WITH A LIST
-    void awaitingDeliveryByPageListener(List<PageModel> data) {
-        log.info("Получает заказы со статусами готовится и готов, ограниченный страницей: {}", data);
-        log.info("Класс: {}", data.getClass());
-        log.info("Пустой: {}", data.isEmpty());
-        // ArrayList<PageModel> data2 = (ArrayList<PageModel>) data;
-        // String page_model = data.get(0);
-        // log.info("Получает заказы со статусами готовится и готов, ограниченный страницей: {}", page_model);
+    void awaitingDeliveryByPageListener(ConsumerRecord<String, Object> record) throws JsonProcessingException {
+        log.info("Получает заказы со статусами готовится и готов, ограниченный страницей: {}", record);
+        String value = record.value().toString();
+        PageModel pageModel = objectMapper.readValue(value, PageModel.class);
 
         kafkaLimitOrderPageTemplate.send("awaiting_delivery_by_page", 
-                orderService.findAllActiveOrdersByPage(data.get(0).getPage(), data.get(0).getPageSize()));
+                orderService.findAllActiveOrdersByPage(pageModel.getPage(), pageModel.getPageSize()));
     }
 
     @KafkaListener(topics = "get_delivering", groupId = "getDelivering")

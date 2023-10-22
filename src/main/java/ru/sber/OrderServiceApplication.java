@@ -15,12 +15,11 @@ public class OrderServiceApplication {
         SpringApplication.run(OrderServiceApplication.class, args);
     }
 
-    // Do not try to uncomment code below
     // @Bean
-    // CommandLineRunner commandLineRunner(KafkaTemplate<String, PageModel> kafkaTemplate){
+    // CommandLineRunner commandLineRunner(KafkaTemplate<String, Long> kafkaTemplate){
     //     return args -> {
     //         for (int i = 0; i < 1; i++) {
-    //             kafkaTemplate.send("get_awaiting_delivery_by_page", new PageModel(1, 10));
+    //             kafkaTemplate.send("get_all_orders_by_courier_id", 2l);
     //         }
     //     };
     // }
