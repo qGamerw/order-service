@@ -23,63 +23,24 @@ import ru.sber.services.OrderService;
 @Component
 public class CourierKafkaListeners {
     private final OrderService orderService;
-    private KafkaTemplate<String, List<LimitOrder>> kafkaLimitOrderListTemplate;
-    private KafkaTemplate<String, Page<LimitOrder>> kafkaLimitOrderPageTemplate;
-    private KafkaTemplate<String, Optional<LimitOrder>> kafkaLimitOrderTemplate;
-    private KafkaTemplate<String, Boolean> kafkaBooleanTemplate;
+
+
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    public CourierKafkaListeners(OrderService orderService, 
-                KafkaTemplate<String, List<LimitOrder>> kafkaLimitOrderListTemplate,
-                KafkaTemplate<String, Page<LimitOrder>> kafkaLimitOrderPageTemplate,
-                KafkaTemplate<String, Optional<LimitOrder>> kafkaLimitOrderTemplate,
-                KafkaTemplate<String, Boolean> kafkaBooleanTemplate) {
+    public CourierKafkaListeners(OrderService orderService, KafkaTemplate<String, Boolean> kafkaBooleanTemplate){
         this.orderService = orderService;
-        this.kafkaLimitOrderListTemplate = kafkaLimitOrderListTemplate;
-        this.kafkaLimitOrderPageTemplate = kafkaLimitOrderPageTemplate;
-        this.kafkaLimitOrderTemplate = kafkaLimitOrderTemplate;
-        this.kafkaBooleanTemplate = kafkaBooleanTemplate;
     }
 
-    @KafkaListener(topics = "get_awaiting_delivery_by_page", groupId = "getAwaitingDeliveryByPage")
-    void awaitingDeliveryByPageListener(ConsumerRecord<String, Object> record) throws JsonProcessingException {
-        log.info("Получает заказы со статусами готовится и готов, ограниченный страницей: {}", record);
-        String value = record.value().toString();
-        PageModel pageModel = objectMapper.readValue(value, PageModel.class);
-
-        kafkaLimitOrderPageTemplate.send("awaiting_delivery_by_page", 
-                orderService.findAllActiveOrdersByPage(pageModel.getPage(), pageModel.getPageSize()));
-    }
-
-    @KafkaListener(topics = "get_delivering", groupId = "getDelivering")
-    void deliveringListener(Long id) {
-        log.info("Получает заказы которые доставляет курьер по id: {}", id);
-
-        kafkaLimitOrderListTemplate.send("delivering", 
-                orderService.findOrdersCourierIsDelivering(id));
-    }
-
-    @KafkaListener(topics = "get_order_by_id", groupId = "getOrderById")
-    void orderByIdListener(Long id) {
-        log.info("Возвращает заказ по id: {}", id);
-
-        kafkaLimitOrderTemplate.send("order_by_id", orderService.findOrderById(id));
-    }
-
-    @KafkaListener(topics = "get_all_orders_by_courier_id", groupId = "getAllOrdersByCourierId")
-    void allOrdersByCourierIdListener(Long id) {
-        log.info("Возвращает все заказы курьера с id: {}", id);
-
-        kafkaLimitOrderListTemplate.send("all_orders_by_courier_id", orderService.findOrdersByCourierId(id));
-    }
-
+    /**
+     * Устанавливает курьера на заказ
+     */
     @KafkaListener(topics = "update_courier_order", groupId = "updateCourierOrder")
     void courierOrderListener(ConsumerRecord<String, Object> record) throws JsonProcessingException {
         log.info("Обновляет id курьера у заказа с id {}", record);
         String value = record.value().toString();
         LimitOrder order = objectMapper.readValue(value, LimitOrder.class);
         log.info("Order: {}", order);
-        kafkaBooleanTemplate.send("courier_order", orderService.updateOrderCourierId(order.getCourierId(), order.getId()));
+        orderService.updateOrderCourierId(order.getCourierId(), order.getId());
     }
 }
