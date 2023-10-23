@@ -2,12 +2,16 @@ package ru.sber.controllers;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.models.LimitOrderRestoran;
+
+import ru.sber.models.LimitOrder;
+import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.models.Message;
 import ru.sber.services.OrderService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Контроллер для взаимодействия сервером Ресторан
@@ -16,33 +20,44 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("orders")
-public class RestoranOrderController {
+public class RestaurantOrderController {
     private final OrderService orderService;
+    private KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate;
 
-    public RestoranOrderController(OrderService orderService) {
+    public RestaurantOrderController(OrderService orderService, KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate) {
         this.orderService = orderService;
+        this.kafkaLimitOrderRestaurantTemplate = kafkaLimitOrderRestaurantTemplate;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestoran order) {
-        log.info("Обновляет статус заказа с id {}", id);
+    @PutMapping
+    public void updateOrderStatus(@RequestBody LimitOrderRestaurant order) {
+        log.info("Обновляет статус заказа с id {}", order.getId());
 
-        var isUpdate = orderService.updateOrderStatus(id, order);
+        var isUpdate = orderService.updateOrderStatus(order.getId(), order);
 
         if (isUpdate) {
-            return ResponseEntity.ok()
-                    .build();
-        } else {
-            return ResponseEntity.badRequest()
-                    .build();
-        }
+            switch (order.getStatus()) {
+                case "REVIEW"-> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
+                case "COOKING", "COOKED" -> {
+                    kafkaLimitOrderRestaurantTemplate.send("courier_status", order);
+                    kafkaLimitOrderRestaurantTemplate.send("client_status", order);
+                }
+                case "CANCELLED" -> {
+                    kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
+                    kafkaLimitOrderRestaurantTemplate.send("client_status", order);
+                }
+                case "DELIVERY", "COMPLETED" -> {
+                    kafkaLimitOrderRestaurantTemplate.send("client_status", order);
+                }
+            }
+        } 
     }
 
     @GetMapping
-    public ResponseEntity<List<LimitOrderRestoran>> getListOrder() {
+    public ResponseEntity<List<LimitOrderRestaurant>> getListOrder() {
         log.info("Получает заказы со статусами на рассмотрении, в процессе готовки и готов");
 
-        List<LimitOrderRestoran> orders = orderService.getListOrder();
+        List<LimitOrderRestaurant> orders = orderService.getListOrder();
 
         return ResponseEntity.ok()
                 .body(orders);

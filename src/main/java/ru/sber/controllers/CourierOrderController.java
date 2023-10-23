@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.models.LimitOrderRestoran;
+import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.models.LimitOrder;
 import ru.sber.services.OrderService;
 

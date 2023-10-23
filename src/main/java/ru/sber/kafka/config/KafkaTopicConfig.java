@@ -10,12 +10,16 @@ public class KafkaTopicConfig {
     
 
     @Bean
-    public NewTopic clientOrderStatus() {
-        return TopicBuilder.name("client-order-status").build();
+    public NewTopic courierClientStatus() {
+        return TopicBuilder.name("courier_status").build();
     }
     @Bean
-    public NewTopic courierOrderStatus() {
-        return TopicBuilder.name("courier_order_status").build();
+    public NewTopic restaurantClientStatus() {
+        return TopicBuilder.name("restaurant_status").build();
+    }
+    @Bean
+    public NewTopic clientStatus() {
+        return TopicBuilder.name("client_status").build();
     }
     @Bean
     public NewTopic updateCourierOrder() {

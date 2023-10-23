@@ -2,7 +2,7 @@ package ru.sber.services;
 
 import ru.sber.entities.Order;
 import ru.sber.models.LimitOrder;
-import ru.sber.models.LimitOrderRestoran;
+import ru.sber.models.LimitOrderRestaurant;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public interface OrderService {
      * @param orderRequest заказ
      * @return boolean
      */
-    boolean updateOrderStatus(long id, LimitOrderRestoran orderRequest);
+    boolean updateOrderStatus(long id, LimitOrderRestaurant orderRequest);
 
     /**
      * Устанавливает курьера на заказ
@@ -36,7 +36,7 @@ public interface OrderService {
      *
      * @return List<LimitOrder>
      */
-    List<LimitOrderRestoran> getListOrder();
+    List<LimitOrderRestaurant> getListOrder();
 
     /**
      * Ищет список заказов которые готовятся или уже готовы, но не доставляются

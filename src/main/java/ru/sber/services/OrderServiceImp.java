@@ -10,7 +10,7 @@ import ru.sber.entities.Order;
 import ru.sber.entities.enums.EStatusOrders;
 import ru.sber.models.LimitDishesOrder;
 import ru.sber.models.LimitOrder;
-import ru.sber.models.LimitOrderRestoran;
+import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.repositories.DishesOrderRepository;
 import ru.sber.repositories.OrderRepository;
 
@@ -36,7 +36,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean updateOrderStatus(long id, LimitOrderRestoran orderRequest) {
+    public boolean updateOrderStatus(long id, LimitOrderRestaurant orderRequest) {
         log.info("Обновляет статус заказа с id {} на статус {}", id, orderRequest.getStatus());
 
         Optional<Order> order = orderRepository.findById(id);
@@ -75,7 +75,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrderRestoran> getListOrder() {
+    public List<LimitOrderRestaurant> getListOrder() {
         log.info("Получает список заказов со статусом: в ожидании, в процессе готовки и готов");
 
         List<EStatusOrders> eStatusOrdersList = Arrays.asList(
@@ -199,17 +199,17 @@ public class OrderServiceImp implements OrderService {
     }
 
     /**
-     * Преобразует класс Order {@link Order} в {@link LimitOrderRestoran}
+     * Преобразует класс Order {@link Order} в {@link LimitOrderRestaurant}
      *
      * @return LimitOrderRestoran
      */
-    private Function<Order, LimitOrderRestoran> getLimitOrderRestoranFunction() {
+    private Function<Order, LimitOrderRestaurant> getLimitOrderRestoranFunction() {
         return order -> {
             List<LimitDishesOrder> dishesOrders = dishesOrderRepository.findAllByOrderId(order.getId())
                     .stream()
                     .map(LimitDishesOrder::new)
                     .toList();
-            return new LimitOrderRestoran(order, dishesOrders);
+            return new LimitOrderRestaurant(order, dishesOrders);
         };
     }
 }

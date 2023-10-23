@@ -6,8 +6,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.kafka.core.KafkaTemplate;
 
-import ru.sber.models.kafka_models.PageModel;
-
 @SpringBootApplication
 public class OrderServiceApplication {
 

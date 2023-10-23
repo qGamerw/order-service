@@ -1,9 +1,10 @@
 ###
 # Обновляет статус заказа
-PUT http://localhost:8083/orders/4
+PUT http://localhost:8083/orders
 Content-Type: application/json
 
 {
+  "id": "4",
   "status": "COOKED"
 }
 
