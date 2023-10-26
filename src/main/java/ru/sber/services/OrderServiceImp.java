@@ -168,11 +168,12 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrder> findOrdersByCourierId(long id) {
-        return orderRepository.findOrderByCourierId(id)
-                .stream()
-                .map(getLimitOrderFunction())
-                .toList();
+    public Page<LimitOrder> findOrdersByCourierId(long id, int page, int pageSize) {
+        log.info("Получает список всех заказов курьера, ограниченный страницей");
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        return orderRepository.findOrderByCourierId(id, pageable)
+                .map(getLimitOrderFunction());
     }
 
     @Override

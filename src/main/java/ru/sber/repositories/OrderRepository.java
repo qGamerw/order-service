@@ -20,7 +20,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     
     Page<Order> findByStatusOrdersInAndCourierIdNull(List<EStatusOrders> statusOrders, Pageable pageable);
 
-    List<Order> findOrderByCourierId(long id);
+    Page<Order> findOrderByCourierId(long id, Pageable pageable);
 
     List<Order> findOrderByClientId(long id);
 

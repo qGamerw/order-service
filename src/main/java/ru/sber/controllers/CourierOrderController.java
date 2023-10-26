@@ -86,10 +86,10 @@ public class CourierOrderController {
     }
 
     @GetMapping("/courier/{idCourier}")
-    public ResponseEntity<List<LimitOrder>> getAllOrdersByCourierId(@PathVariable("idCourier") long id) {
+    public ResponseEntity<Page<LimitOrder>> getAllOrdersByCourierId(@PathVariable("idCourier") long id, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Возвращает все заказы курьера с id: {}", id);
 
-        List<LimitOrder> orders = orderService.findOrdersByCourierId(id);
+        Page<LimitOrder> orders = orderService.findOrdersByCourierId(id, page, pageSize);
 
         return ResponseEntity.ok()
                 .body(orders);

@@ -32,7 +32,7 @@ GET http://localhost:8083/orders/4
 
 ###
 # Инфо. о куръере с id _
-GET http://localhost:8083/orders/courier/2
+GET http://localhost:8083/orders/courier/2?page=0&pageSize=10
 
 ###
 # Инфо. о куръере с id _
