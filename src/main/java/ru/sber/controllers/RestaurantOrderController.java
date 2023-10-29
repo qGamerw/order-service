@@ -29,11 +29,11 @@ public class RestaurantOrderController {
         this.kafkaLimitOrderRestaurantTemplate = kafkaLimitOrderRestaurantTemplate;
     }
 
-    @PutMapping
-    public void updateOrderStatus(@RequestBody LimitOrderRestaurant order) {
-        log.info("Обновляет статус заказа с id {}", order.getId());
+    @PutMapping("/{id}")
+    public void updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestaurant order) {
+        log.info("Обновляет статус заказа с id {}", id);
 
-        var isUpdate = orderService.updateOrderStatus(order.getId(), order);
+        var isUpdate = orderService.updateOrderStatus(id, order);
 
         if (isUpdate) {
             switch (order.getStatus()) {
