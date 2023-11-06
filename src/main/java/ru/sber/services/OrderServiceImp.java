@@ -48,13 +48,15 @@ public class OrderServiceImp implements OrderService {
                     currentOrder.setStartCookingTime(LocalDateTime.now());
                     currentOrder.setBranchOfficeId(orderRequest.getBranchId());
                     currentOrder.setBranchAddress(orderRequest.getBranchAddress());
-                    currentOrder.setEmployeeRestaurantId(order.get().getEmployeeRestaurantId());
+                    currentOrder.setEmployeeRestaurantId(orderRequest.getEmployeeRestaurantId());
                 }
                 case "COOKED" -> order.get().setEndCookingTime(LocalDateTime.now());
                 case "DELIVERY" -> order.get().setDeliveryTime(LocalDateTime.now());
             }
 
             order.get().setStatusOrders(EStatusOrders.valueOf(orderRequest.getStatus()));
+
+            log.info("{}", order);
             orderRepository.save(order.get());
 
             return true;
