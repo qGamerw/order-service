@@ -33,6 +33,7 @@ public class RestaurantOrderController {
     public void updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestaurant order) {
         log.info("Обновляет статус заказа с id {}", id);
 
+        order.setId(id);
         var isUpdate = orderService.updateOrderStatus(id, order);
 
         if (isUpdate) {

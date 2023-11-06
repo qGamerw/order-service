@@ -32,6 +32,9 @@ public class Order {
     private Long courierId;
 
     @Column
+    private Long employeeRestaurantId;
+
+    @Column
     private long branchOfficeId;
 
     @Column(nullable = false)

@@ -14,18 +14,19 @@ Content-Type: application/json
 ###
 # Обновляет статус заказа COOKED
 
-PUT localhost:8081/orders/27
+PUT localhost:8083/orders/2
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 
 {
-  "status": "COOKED"
+  "status": "COOKED",
+  "employeeRestaurantId": 1
 }
 
 ###
 # Получает заказы со статусами на рассмотрении и в процессе
 
-GET localhost:8081/orders
+GET localhost:8083/orders
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 
 ###
