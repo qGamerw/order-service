@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequestMapping("orders")
 public class RestaurantOrderController {
     private final OrderService orderService;
-    private KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate;
+    private final KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate;
 
     public RestaurantOrderController(OrderService orderService, KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate) {
         this.orderService = orderService;
@@ -40,6 +40,9 @@ public class RestaurantOrderController {
             switch (order.getStatus()) {
                 case "REVIEW"-> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
                 case "COOKING", "COOKED" -> {
+                    Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
+
+                    limitOrder.ifPresent(value -> order.setBranchAddress(value.getBranchAddress()));
                     kafkaLimitOrderRestaurantTemplate.send("courier_status", order);
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
