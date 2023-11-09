@@ -187,6 +187,17 @@ public class OrderServiceImp implements OrderService {
                 .toList();
     }
 
+    @Override
+    public List<LimitOrderRestaurant> getListOrderByNotify(String ordersId) {
+        List<Long> dishIds = Arrays.stream(ordersId.split(","))
+                .map(Long::parseLong)
+                .toList();
+
+        return orderRepository.findAllById(dishIds).stream()
+                .map(getLimitOrderRestoranFunction())
+                .toList();
+    }
+
     /**
      * Преобразует класс Order {@link Order} в {@link LimitOrder}
      *

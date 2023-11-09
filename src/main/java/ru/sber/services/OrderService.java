@@ -89,4 +89,11 @@ public interface OrderService {
      * @return список курьеров
      */
     List<LimitOrder> findOrdersCourierIsDelivering(long id);
+
+    /**
+     * Получает заказы для уведомления
+     * @param ordersId list of order id
+     * @return List<LimitOrder>
+     */
+    List<LimitOrderRestaurant> getListOrderByNotify(String ordersId);
 }

@@ -46,3 +46,9 @@ Content-Type: application/json
 {
   "message": "У клиента имя не грузинское, так нельзя.!"
 }
+
+###
+# Получает заказы со статусами на рассмотрении и в процессе
+
+GET localhost:8083/orders/orders/notify/1,2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0

@@ -96,4 +96,11 @@ public class RestaurantOrderController {
                     .build();
         }
     }
+
+    @GetMapping("orders/notify/{orderId}")
+    public List<LimitOrderRestaurant> getListOrderByNotify(@PathVariable String orderId) {
+        log.info("Получает заказы для уведомления для ресторана {}", orderId);
+
+        return orderService.getListOrderByNotify(orderId);
+    }
 }
