@@ -204,7 +204,7 @@ public class OrderServiceImp implements OrderService {
 
     @Override
     public List<LimitOrder> findOrdersCourierIsDelivering(long id) {
-        return orderRepository.findOrderByCourierIdAndStatusOrdersNot(id, EStatusOrders.CANCELLED)
+        return orderRepository.findOrderByCourierIdAndStatusOrdersNot(id, EStatusOrders.COMPLETED)
                 .stream()
                 .map(getLimitOrderFunction())
                 .toList();
