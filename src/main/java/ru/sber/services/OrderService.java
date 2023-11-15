@@ -76,6 +76,13 @@ public interface OrderService {
     boolean cancellationOfOrderById(Long id, String massage);
 
     /**
+     * Отменяет заказы
+     *
+     * @param listId listId заказов
+     */
+    boolean cancellationOfOrderByListId(String listId, String massage);
+
+    /**
      * Возвращает все заказы которые брал курьер
      *
      * @param id идентификатор курьера

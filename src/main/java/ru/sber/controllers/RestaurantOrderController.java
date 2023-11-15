@@ -96,6 +96,20 @@ public class RestaurantOrderController {
                     .build();
         }
     }
+    @PutMapping("/cancel")
+    public ResponseEntity<?> cancellationOfOrderById(@RequestParam String listId, @RequestBody Message message) {
+        log.info("Отменяет заказы с id {}", listId);
+
+        var isCancel = orderService.cancellationOfOrderByListId(listId, message.getMessage());
+
+        if (isCancel) {
+            return ResponseEntity.accepted()
+                    .build();
+        } else {
+            return ResponseEntity.badRequest()
+                    .build();
+        }
+    }
 
     @GetMapping("orders/notify/{orderId}")
     public List<LimitOrderRestaurant> getListOrderByNotify(@PathVariable String orderId) {
@@ -103,4 +117,5 @@ public class RestaurantOrderController {
 
         return orderService.getListOrderByNotify(orderId);
     }
+
 }

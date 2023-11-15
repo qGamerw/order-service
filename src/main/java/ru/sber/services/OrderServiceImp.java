@@ -126,6 +126,29 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public boolean cancellationOfOrderByListId(String listId, String massage) {
+        log.info("Отказывается от заказов с id {}", listId);
+
+        if (massage.isEmpty()){ return false; }
+
+        List<Long> dishIds = Arrays.stream(listId.split(","))
+                .map(Long::parseLong)
+                .toList();
+
+        dishIds.forEach(item -> {
+            Optional<Order> order = orderRepository.findById(item);
+
+            if (order.isPresent()) {
+                order.get().setStatusOrders(EStatusOrders.CANCELLED);
+                order.get().setRefusalReason(massage);
+                orderRepository.save(order.get());
+            }
+        });
+
+        return true;
+    }
+
+    @Override
     public List<LimitOrder> findAllActiveOrder() {
         log.info("Получает список заказов со статусом: готовится, готов");
 
