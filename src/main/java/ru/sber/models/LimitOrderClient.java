@@ -52,4 +52,5 @@ public class LimitOrderClient {
         this.status = order.getStatusOrders().name();
         this.listDishesFromOrder = dishesOrder;
     }
+
 }

@@ -1,11 +1,13 @@
 package ru.sber.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.query.spi.Limit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import ru.sber.models.LimitOrder;
+import ru.sber.models.LimitOrderClient;
 import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.models.Message;
 import ru.sber.services.OrderService;
@@ -41,16 +43,22 @@ public class RestaurantOrderController {
                 case "REVIEW"-> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
                 case "COOKING", "COOKED" -> {
                     Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
-
-                    limitOrder.ifPresent(value -> order.setBranchAddress(value.getBranchAddress()));
+                    limitOrder.ifPresent(value -> {
+                        order.setBranchAddress(value.getBranchAddress());
+                        order.setClientId(value.getClientId());
+                    });
                     kafkaLimitOrderRestaurantTemplate.send("courier_status", order);
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
                 case "CANCELLED" -> {
+                    Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
+                    limitOrder.ifPresent(value -> order.setClientId(value.getClientId()));
                     kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
                 case "DELIVERY", "COMPLETED" -> {
+                    Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
+                    limitOrder.ifPresent(value -> order.setClientId(value.getClientId()));
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
             }

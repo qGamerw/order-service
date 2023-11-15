@@ -18,6 +18,7 @@ import java.util.List;
 public class LimitOrder {
     private Long id;
     private Long courierId;
+    private Long clientId;
     private String clientName;
     private String description;
     private String clientPhone;
@@ -35,6 +36,7 @@ public class LimitOrder {
     public LimitOrder(Order order, List<LimitDishesOrder> dishesOrder) {
         this.id = order.getId();
         this.clientName = order.getClientName();
+        this.clientId = order.getClientId();
         this.clientPhone = order.getClientPhoneNumber();
         this.status = order.getStatusOrders();
         this.orderTime = order.getOrderTime();
