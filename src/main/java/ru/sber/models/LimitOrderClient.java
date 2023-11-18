@@ -33,7 +33,7 @@ public class LimitOrderClient {
     private Integer floor;
     private Integer frontDoor;
     private String status;
-    private List<LimitDishesOrder> listDishesFromOrder;
+    private List<LimitDishesOrder> dishesOrders;
 
     public LimitOrderClient(Order order, List<LimitDishesOrder> dishesOrder) {
         this.id = order.getId();
@@ -50,7 +50,7 @@ public class LimitOrderClient {
         this.floor = order.getFloor();
         this.frontDoor = order.getFrontDoor();
         this.status = order.getStatusOrders().name();
-        this.listDishesFromOrder = dishesOrder;
+        this.dishesOrders = dishesOrder;
     }
 
 }
