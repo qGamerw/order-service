@@ -1,13 +1,10 @@
 package ru.sber.controllers;
 
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.query.spi.Limit;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import ru.sber.models.LimitOrder;
-import ru.sber.models.LimitOrderClient;
 import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.models.Message;
 import ru.sber.services.OrderService;
@@ -32,7 +29,7 @@ public class RestaurantOrderController {
     }
 
     @PutMapping("/{id}")
-    public void updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestaurant order) {
+    public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestaurant order) {
         log.info("Обновляет статус заказа с id {}", id);
 
         order.setId(id);
@@ -40,7 +37,7 @@ public class RestaurantOrderController {
 
         if (isUpdate) {
             switch (order.getStatus()) {
-                case "REVIEW"-> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
+                case "REVIEW" -> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
                 case "COOKING", "COOKED" -> {
                     Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
                     limitOrder.ifPresent(value -> {
@@ -62,7 +59,9 @@ public class RestaurantOrderController {
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
             }
-        } 
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
@@ -104,6 +103,7 @@ public class RestaurantOrderController {
                     .build();
         }
     }
+
     @PutMapping("/cancel")
     public ResponseEntity<?> cancellationOfOrderById(@RequestParam String listId, @RequestBody Message message) {
         log.info("Отменяет заказы с id {}", listId);
