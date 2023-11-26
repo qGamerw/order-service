@@ -5,10 +5,10 @@ Content-Type: application/json
 
 {
   "clientId": 1,
-  "clientName": "Павел",
+  "clientName": "Павел1",
   "clientPhoneNumber": 123,
   "description": "Повара должны быть",
-  "address": "Вологда, ул. мира, д. 99",
+  "address": "Вологда, ул. мира, д. 10",
   "flat": 12,
   "floor": 3,
   "totalPrice": "100.1",
@@ -17,31 +17,30 @@ Content-Type: application/json
   "listDishesFromOrder": [
     {
       "dishId": 1,
-      "dishName": "dfd",
-      "quantity": 10
+      "dishName": "Apple",
+      "quantity": 5
     },
     {
       "dishId": 2,
-      "dishName": "dfd",
-      "quantity": 10
+      "dishName": "Potato",
+      "quantity": 2
     },
     {
       "dishId": 3,
-      "dishName": "dfd",
-      "quantity": 10
+      "dishName": "Soda",
+      "quantity": 1
     }
   ]
 }
 
 ###
 # Обновляет статус заказа
-
-PUT localhost:8083/orders/4
+PUT localhost:8083/orders/28
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 
 {
-  "status": "COOKING"
+  "status": "REVIEW"
 }
 
 ###

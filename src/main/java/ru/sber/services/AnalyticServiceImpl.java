@@ -3,6 +3,7 @@ package ru.sber.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sber.entities.Order;
+import ru.sber.entities.enums.EStatusOrders;
 import ru.sber.repositories.OrderRepository;
 
 import java.math.BigDecimal;
@@ -44,6 +45,7 @@ public class AnalyticServiceImpl implements AnalyticService {
 
     @Override
     public int findCountOrderFromEmployeeRestaurantId(long employeeRestaurantId) {
+
         return orderRepository.countOrderByEmployeeRestaurantId(employeeRestaurantId);
     }
 
@@ -51,8 +53,12 @@ public class AnalyticServiceImpl implements AnalyticService {
     public long findOrdersPerMonth(LocalDate localDate) {
         return orderRepository.findAll().stream()
                 .filter(order ->
-                        order.getOrderTime().getMonth().equals(localDate.getMonth())
-                                && (order.getOrderTime().getYear() == localDate.getYear()))
+                        (order.getOrderTime().getMonth().equals(localDate.getMonth()) ||
+                                order.getOrderTime().getMonth().equals(localDate.minusMonths(1).getMonth())
+                                && order.getOrderTime().getDayOfMonth() == localDate.getDayOfMonth())
+
+                                && (order.getOrderTime().getYear() == localDate.getYear())
+                                && order.getStatusOrders().equals(EStatusOrders.COMPLETED))
                 .count();
     }
 }

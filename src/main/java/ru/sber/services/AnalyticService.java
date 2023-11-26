@@ -9,28 +9,28 @@ import java.time.LocalDate;
 public interface AnalyticService {
     /**
      * Определяет сумму которую клиент потратил на заказы
-     * @param clientId индификатор клинета
+     * @param clientId id клиента
      * @return сумма
      */
     BigDecimal sumPriceClient(long clientId);
 
     /**
      * Определяет количество заказов сделанных клиентом
-     * @param clientId индфиикатор клиента
+     * @param clientId id клиента
      * @return количество заказов
      */
     int findCountOrderFromClient(long clientId);
 
     /**
      * Определяет количество заказов принятых курьером
-     * @param courierId индфиикатор курьера
+     * @param courierId id курьера
      * @return количество заказов
      */
     int findCountOrderFromCourier(long courierId);
 
     /**
      * Определяет количество заказов принятых работником ресторана
-     * @param employeeRestaurantId индфиикатор работника ресторана
+     * @param employeeRestaurantId id работника ресторана
      * @return количество заказов
      */
     int findCountOrderFromEmployeeRestaurantId(long employeeRestaurantId);
@@ -38,8 +38,7 @@ public interface AnalyticService {
     /**
      * Определяет количество заказов поступивших за месяц
      * @param localDate - дата из которой извлекается месяц и год
-     * @return количество заказо
+     * @return количество заказов
      */
     long findOrdersPerMonth(LocalDate localDate);
-
 }

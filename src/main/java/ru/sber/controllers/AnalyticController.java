@@ -62,16 +62,14 @@ public class AnalyticController {
     public ResponseEntity<Long> getOrderPerMonth(@RequestParam(required = false) Integer year,
                                                  @RequestParam(required = false) Integer month) {
         log.info("Получает количество заказов поступивших за месяц");
-        if(year == null) {
-            year = LocalDate.now().getYear();
-        }
-        if(month == null) {
-            month = LocalDate.now().getMonthValue();
-        }
-        Long countOrder = analyticService.findOrdersPerMonth(LocalDate.of(year, month, 1));
+
+        Long countOrder = analyticService.findOrdersPerMonth(LocalDate.of(
+                year == null? LocalDate.now().getYear(): year,
+                month == null? LocalDate.now().getMonthValue(): month,
+                LocalDate.now().getDayOfMonth()));
+
 
         return ResponseEntity.ok()
                 .body(countOrder);
     }
-
 }
