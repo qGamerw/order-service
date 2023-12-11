@@ -26,7 +26,7 @@ public interface AnalyticService {
      * @param courierId id курьера
      * @return количество заказов
      */
-    int findCountOrderFromCourier(long courierId);
+    int findCountOrderFromCourier(String courierId);
 
     /**
      * Определяет количество заказов принятых работником ресторана

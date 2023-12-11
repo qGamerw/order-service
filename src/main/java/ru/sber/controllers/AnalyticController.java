@@ -32,7 +32,7 @@ public class AnalyticController {
     }
 
     @GetMapping("/courier/{id}")
-    public ResponseEntity<Integer> getCountOrderFromCourier(@PathVariable("id") long idCourier) {
+    public ResponseEntity<Integer> getCountOrderFromCourier(@PathVariable("id") String idCourier) {
         log.info("Получает количество заказов сделанных курьером");
         int countOrder = analyticService.findCountOrderFromCourier(idCourier);
 
