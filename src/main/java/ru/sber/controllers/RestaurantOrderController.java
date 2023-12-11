@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
-
 import ru.sber.models.LimitOrder;
 import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.models.Message;
@@ -30,7 +29,7 @@ public class RestaurantOrderController {
     }
 
     @PutMapping("/{id}")
-    public void updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestaurant order) {
+    public ResponseEntity<Void> updateOrderStatus(@PathVariable Long id, @RequestBody LimitOrderRestaurant order) {
         log.info("Обновляет статус заказа с id {}", id);
 
         order.setId(id);
@@ -38,23 +37,31 @@ public class RestaurantOrderController {
 
         if (isUpdate) {
             switch (order.getStatus()) {
-                case "REVIEW"-> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
+                case "REVIEW" -> kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
                 case "COOKING", "COOKED" -> {
                     Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
-
-                    limitOrder.ifPresent(value -> order.setBranchAddress(value.getBranchAddress()));
+                    limitOrder.ifPresent(value -> {
+                        order.setBranchAddress(value.getBranchAddress());
+                        order.setClientId(value.getClientId());
+                    });
                     kafkaLimitOrderRestaurantTemplate.send("courier_status", order);
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
                 case "CANCELLED" -> {
+                    Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
+                    limitOrder.ifPresent(value -> order.setClientId(value.getClientId()));
                     kafkaLimitOrderRestaurantTemplate.send("restaurant_status", order);
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
                 case "DELIVERY", "COMPLETED" -> {
+                    Optional<LimitOrder> limitOrder = orderService.findOrderById(id);
+                    limitOrder.ifPresent(value -> order.setClientId(value.getClientId()));
                     kafkaLimitOrderRestaurantTemplate.send("client_status", order);
                 }
             }
-        } 
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
@@ -96,4 +103,27 @@ public class RestaurantOrderController {
                     .build();
         }
     }
+
+    @PutMapping("/cancel")
+    public ResponseEntity<?> cancellationOfOrderById(@RequestParam String listId, @RequestBody Message message) {
+        log.info("Отменяет заказы с id {}", listId);
+
+        var isCancel = orderService.cancellationOfOrderByListId(listId, message.getMessage());
+
+        if (isCancel) {
+            return ResponseEntity.accepted()
+                    .build();
+        } else {
+            return ResponseEntity.badRequest()
+                    .build();
+        }
+    }
+
+    @GetMapping("orders/notify/{orderId}")
+    public List<LimitOrderRestaurant> getListOrderByNotify(@PathVariable String orderId) {
+        log.info("Получает заказы для уведомления для ресторана {}", orderId);
+
+        return orderService.getListOrderByNotify(orderId);
+    }
+
 }

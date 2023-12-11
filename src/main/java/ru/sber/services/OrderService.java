@@ -76,6 +76,13 @@ public interface OrderService {
     boolean cancellationOfOrderById(Long id, String massage);
 
     /**
+     * Отменяет заказы
+     *
+     * @param listId listId заказов
+     */
+    boolean cancellationOfOrderByListId(String listId, String massage);
+
+    /**
      * Возвращает все заказы которые брал курьер
      *
      * @param id идентификатор курьера
@@ -89,4 +96,11 @@ public interface OrderService {
      * @return список курьеров
      */
     List<LimitOrder> findOrdersCourierIsDelivering(String id);
+
+    /**
+     * Получает заказы для уведомления
+     * @param ordersId list of order id
+     * @return List<LimitOrder>
+     */
+    List<LimitOrderRestaurant> getListOrderByNotify(String ordersId);
 }
