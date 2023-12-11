@@ -29,7 +29,7 @@ public interface OrderService {
      * @param idOrder индификатор заказа
      * @return true в случае успеха
      */
-    boolean updateOrderCourierId(long idCourier, long idOrder);
+    boolean updateOrderCourierId(String idCourier, long idOrder);
 
     /**
      * Получает все заказы со статусом на рассмотрении и в процессе
@@ -88,5 +88,5 @@ public interface OrderService {
      * @param id индификатор курьера
      * @return список курьеров
      */
-    List<LimitOrder> findOrdersCourierIsDelivering(long id);
+    List<LimitOrder> findOrdersCourierIsDelivering(String id);
 }

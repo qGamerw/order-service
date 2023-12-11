@@ -24,5 +24,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findOrderByClientId(long id);
 
-    List<Order> findOrderByCourierIdAndStatusOrdersNot(Long courierId, EStatusOrders statusOrders);
+    List<Order> findOrderByCourierIdAndStatusOrdersNot(String courierId, EStatusOrders statusOrders);
 }

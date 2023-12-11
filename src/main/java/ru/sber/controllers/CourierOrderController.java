@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.sber.models.LimitOrderRestaurant;
 import ru.sber.models.LimitOrder;
 import ru.sber.services.OrderService;
 
@@ -17,7 +17,6 @@ import java.util.Optional;
  */
 @Slf4j
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("orders")
 public class CourierOrderController {
     private final OrderService orderService;
@@ -43,6 +42,7 @@ public class CourierOrderController {
     }
 
     @GetMapping("/awaiting-delivery")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<List<LimitOrder>> getActiveListOrder() {
         log.info("Получает заказы со статусами готовится и готов");
 
@@ -53,6 +53,7 @@ public class CourierOrderController {
     }
 
     @GetMapping("/awaiting-delivery/by-page")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<Page<LimitOrder>> getActiveListOrder(@RequestParam int page, @RequestParam int pageSize) {
         log.info("Получает заказы со статусами готовится и готов, ограниченный страницей");
 
@@ -63,7 +64,7 @@ public class CourierOrderController {
     }
 
     @GetMapping("/delivering/courier/{idCourier}")
-    public ResponseEntity<List<LimitOrder>> getOrdersIsDelivering(@PathVariable("idCourier") long id) {
+    public ResponseEntity<List<LimitOrder>> getOrdersIsDelivering(@PathVariable("idCourier") String id) {
         log.info("Получает заказы которые доставляет курьер");
 
         List<LimitOrder> orders = orderService.findOrdersCourierIsDelivering(id);

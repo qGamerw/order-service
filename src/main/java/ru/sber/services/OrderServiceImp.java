@@ -66,7 +66,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean updateOrderCourierId(long idCourier, long idOrder) {
+    public boolean updateOrderCourierId(String idCourier, long idOrder) {
         log.info("Обновляет курьера (id={}) заказа с id {}", idCourier, idOrder);
         Optional<Order> order = orderRepository.findById(idOrder);
         if(order.isPresent()) {
@@ -180,7 +180,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrder> findOrdersCourierIsDelivering(long id) {
+    public List<LimitOrder> findOrdersCourierIsDelivering(String id) {
         return orderRepository.findOrderByCourierIdAndStatusOrdersNot(id, EStatusOrders.CANCELLED)
                 .stream()
                 .map(getLimitOrderFunction())

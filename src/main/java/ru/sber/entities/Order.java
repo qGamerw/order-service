@@ -29,7 +29,7 @@ public class Order {
     private long clientId;
 
     @Column
-    private Long courierId;
+    private String courierId;
 
     @Column
     private Long employeeRestaurantId;

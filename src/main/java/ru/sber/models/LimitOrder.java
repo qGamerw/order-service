@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class LimitOrder {
     private Long id;
-    private Long courierId;
+    private String courierId;
     private String clientName;
     private String description;
     private String clientPhone;
