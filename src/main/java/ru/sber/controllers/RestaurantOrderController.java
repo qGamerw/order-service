@@ -3,6 +3,7 @@ package ru.sber.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.models.LimitOrder;
 import ru.sber.models.LimitOrderRestaurant;
@@ -65,6 +66,7 @@ public class RestaurantOrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<List<LimitOrderRestaurant>> getListOrder() {
         log.info("Получает заказы со статусами на рассмотрении, в процессе готовки и готов");
 
@@ -75,6 +77,7 @@ public class RestaurantOrderController {
     }
 
     @PutMapping("/{id}/payment")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<?> paymentOfOrderById(@PathVariable Long id) {
         log.info("Оплачивает заказ с id {}", id);
 
@@ -90,6 +93,7 @@ public class RestaurantOrderController {
     }
 
     @PutMapping("/{id}/cancel")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<?> cancellationOfOrderById(@PathVariable Long id, @RequestBody Message message) {
         log.info("Отменяет заказ с id {}", id);
 
@@ -105,6 +109,7 @@ public class RestaurantOrderController {
     }
 
     @PutMapping("/cancel")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<?> cancellationOfOrderById(@RequestParam String listId, @RequestBody Message message) {
         log.info("Отменяет заказы с id {}", listId);
 
@@ -120,6 +125,7 @@ public class RestaurantOrderController {
     }
 
     @GetMapping("orders/notify/{orderId}")
+    @PreAuthorize("hasRole('client_user')")
     public List<LimitOrderRestaurant> getListOrderByNotify(@PathVariable String orderId) {
         log.info("Получает заказы для уведомления для ресторана {}", orderId);
 
