@@ -21,7 +21,7 @@ public class AnalyticServiceImpl implements AnalyticService {
     }
 
     @Override
-    public BigDecimal sumPriceClient(long clientId) {
+    public BigDecimal sumPriceClient(String clientId) {
         Optional<Order> optionalOrder = orderRepository.findOrderByClientId(clientId).stream().reduce((order, order2) -> {
 
             order.setTotalPrice(order.getTotalPrice().add(order2.getTotalPrice()));
@@ -34,7 +34,7 @@ public class AnalyticServiceImpl implements AnalyticService {
     }
 
     @Override
-    public int findCountOrderFromClient(long clientId) {
+    public int findCountOrderFromClient(String clientId) {
         return orderRepository.countOrderByClientId(clientId);
     }
 

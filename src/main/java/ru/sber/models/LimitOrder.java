@@ -18,7 +18,7 @@ import java.util.List;
 public class LimitOrder {
     private Long id;
     private String courierId;
-    private Long clientId;
+    private String clientId;
     private String clientName;
     private String description;
     private String clientPhone;

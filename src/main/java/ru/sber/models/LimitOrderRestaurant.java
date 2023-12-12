@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class LimitOrderRestaurant {
     private Long id;
-    private Long clientId;
+    private String clientId;
     private String clientName;
     private String description;
     private String clientPhone;

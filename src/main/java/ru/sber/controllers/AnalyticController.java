@@ -24,7 +24,7 @@ public class AnalyticController {
 
     @GetMapping("/client/{id}")
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<Integer> getCountOrderFromClient(@PathVariable("id") long idClient) {
+    public ResponseEntity<Integer> getCountOrderFromClient(@PathVariable("id") String idClient) {
         log.info("Получает количество заказов сделанных клиентом");
         int countOrder = analyticService.findCountOrderFromClient(idClient);
 
@@ -56,7 +56,7 @@ public class AnalyticController {
 
     @GetMapping("/sum/price/client/{id}")
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<BigDecimal> getSumPriceClient(@PathVariable("id") long idClient) {
+    public ResponseEntity<BigDecimal> getSumPriceClient(@PathVariable("id") String idClient) {
         log.info("Получает количество заказов сделанных клиентом");
         BigDecimal sumPriceClient = analyticService.sumPriceClient(idClient);
         return ResponseEntity.ok()

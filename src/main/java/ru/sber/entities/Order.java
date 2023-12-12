@@ -26,7 +26,7 @@ public class Order {
     private Long id;
 
     @Column(nullable = false)
-    private long clientId;
+    private String clientId;
 
     @Column
     private String courierId;

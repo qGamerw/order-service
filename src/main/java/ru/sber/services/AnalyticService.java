@@ -12,14 +12,14 @@ public interface AnalyticService {
      * @param clientId id клиента
      * @return сумма
      */
-    BigDecimal sumPriceClient(long clientId);
+    BigDecimal sumPriceClient(String clientId);
 
     /**
      * Определяет количество заказов сделанных клиентом
      * @param clientId id клиента
      * @return количество заказов
      */
-    int findCountOrderFromClient(long clientId);
+    int findCountOrderFromClient(String clientId);
 
     /**
      * Определяет количество заказов принятых курьером

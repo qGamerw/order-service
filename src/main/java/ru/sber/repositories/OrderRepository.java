@@ -22,10 +22,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Page<Order> findOrderByCourierId(String id, Pageable pageable);
 
-    List<Order> findOrderByClientId(long id);
+    List<Order> findOrderByClientId(String id);
 
     List<Order> findOrderByCourierIdAndStatusOrdersNot(String courierId, EStatusOrders statusOrders);
-    int countOrderByClientId(long id);
+    int countOrderByClientId(String id);
     int countOrderByCourierId(String id);
     int countOrderByEmployeeRestaurantId(long id);
 }

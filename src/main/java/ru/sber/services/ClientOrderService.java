@@ -24,5 +24,5 @@ public interface ClientOrderService {
      * @param clientId id клиента
      * @return список заказов клиента
      */
-    List<LimitOrderClient> getAllOrdersByClientId(long clientId);
+    List<LimitOrderClient> getAllOrdersByClientId(String clientId);
 }

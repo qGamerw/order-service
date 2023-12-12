@@ -1,6 +1,7 @@
 package ru.sber.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,6 +25,7 @@ public class RestaurantOrderController {
     private final OrderService orderService;
     private final KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate;
 
+    @Autowired
     public RestaurantOrderController(OrderService orderService, KafkaTemplate<String, LimitOrderRestaurant> kafkaLimitOrderRestaurantTemplate) {
         this.orderService = orderService;
         this.kafkaLimitOrderRestaurantTemplate = kafkaLimitOrderRestaurantTemplate;

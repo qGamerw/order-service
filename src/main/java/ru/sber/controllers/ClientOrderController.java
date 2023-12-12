@@ -38,7 +38,7 @@ public class ClientOrderController {
 
     @GetMapping("/client/{id}")
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<List<LimitOrderClient>> getOrdersByClientId(@PathVariable long id) {
+    public ResponseEntity<List<LimitOrderClient>> getOrdersByClientId(@PathVariable String id) {
 
         log.info("Получает заказы по id клиента {}", id);
         List<LimitOrderClient> orders = clientOrderService.getAllOrdersByClientId(id);

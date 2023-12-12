@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 public class ClientOrder {
-    private long clientId;
+    private String clientId;
     private String clientName;
     private String clientPhoneNumber;
     private BigDecimal totalPrice;

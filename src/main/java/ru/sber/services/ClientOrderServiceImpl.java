@@ -46,7 +46,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
     }
 
     @Override
-    public List<LimitOrderClient> getAllOrdersByClientId(long clientId) {
+    public List<LimitOrderClient> getAllOrdersByClientId(String clientId) {
         log.info("Получаем все заказы клиента с id {}", clientId);
 
         return orderRepository.findOrderByClientId(clientId).stream()
