@@ -33,7 +33,7 @@ public interface AnalyticService {
      * @param employeeRestaurantId id работника ресторана
      * @return количество заказов
      */
-    int findCountOrderFromEmployeeRestaurantId(long employeeRestaurantId);
+    int findCountOrderFromEmployeeRestaurantId(String employeeRestaurantId);
 
     /**
      * Определяет количество заказов поступивших за месяц

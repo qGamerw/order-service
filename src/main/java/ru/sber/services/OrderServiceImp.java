@@ -55,8 +55,6 @@ public class OrderServiceImp implements OrderService {
             }
 
             order.get().setStatusOrders(EStatusOrders.valueOf(orderRequest.getStatus()));
-
-            log.info("{}", order);
             orderRepository.save(order.get());
 
             return true;

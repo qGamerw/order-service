@@ -28,7 +28,7 @@ public class LimitOrderRestaurant {
     private String address;
     private String branchAddress;
     private Long branchId;
-    private Long employeeRestaurantId;
+    private String employeeRestaurantId;
     private List<LimitDishesOrder> dishesOrders;
 
     public LimitOrderRestaurant(Order order, List<LimitDishesOrder> dishesOrder) {

@@ -32,7 +32,7 @@ public class Order {
     private String courierId;
 
     @Column
-    private Long employeeRestaurantId;
+    private String employeeRestaurantId;
 
     @Column
     private long branchOfficeId;

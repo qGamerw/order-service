@@ -5,21 +5,19 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2O
 Content-Type: application/json
 
 {
-  "status": "REVIEW",
+  "status": "COOKING",
   "branchId": 1,
   "branchAddress": "address"
 }
 
 ### Обновляет статус заказа COOKED
 
-PUT localhost:8083/orders/5
+PUT localhost:8083/orders/8
 Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
 Content-Type: application/json
 
 {
-  "status": "REVIEW",
-  "employeeRestaurantId": 1,
-  "branchId": 1
+  "status": "REVIEW"
 }
 
 ### Получает заказы со статусами на рассмотрении и в процессе

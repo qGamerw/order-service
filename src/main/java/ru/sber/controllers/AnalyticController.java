@@ -46,7 +46,7 @@ public class AnalyticController {
 
     @GetMapping("/employee/{id}")
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<Integer> getCountOrderFromEmployeeRestaurant(@PathVariable("id") long idEmployeeRestaurant) {
+    public ResponseEntity<Integer> getCountOrderFromEmployeeRestaurant(@PathVariable("id") String idEmployeeRestaurant) {
         log.info("Получает количество заказов сделанных работником ресторана");
         int countOrder = analyticService.findCountOrderFromEmployeeRestaurantId(idEmployeeRestaurant);
 

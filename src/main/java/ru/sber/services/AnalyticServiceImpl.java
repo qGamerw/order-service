@@ -44,7 +44,7 @@ public class AnalyticServiceImpl implements AnalyticService {
     }
 
     @Override
-    public int findCountOrderFromEmployeeRestaurantId(long employeeRestaurantId) {
+    public int findCountOrderFromEmployeeRestaurantId(String employeeRestaurantId) {
 
         return orderRepository.countOrderByEmployeeRestaurantId(employeeRestaurantId);
     }
