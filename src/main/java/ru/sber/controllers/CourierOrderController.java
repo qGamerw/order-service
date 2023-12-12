@@ -26,11 +26,11 @@ public class CourierOrderController {
         this.orderService = orderService;
     }
 
-    @PutMapping("/courier")
-    public ResponseEntity<?> updateOrderCourier(@RequestBody LimitOrder order) {
+    @PutMapping("/courier/{courierId}")
+    public ResponseEntity<?> updateOrderCourier(@PathVariable("courierId") String courierId, @RequestBody LimitOrder order) {
         log.info("Обновляет id курьера у заказа с id {}", order.getId());
 
-        var isUpdate = orderService.updateOrderCourierId(order.getCourierId(), order.getId());
+        var isUpdate = orderService.updateOrderCourierId(courierId, order.getId());
 
         if (isUpdate) {
             return ResponseEntity.ok()
@@ -74,6 +74,7 @@ public class CourierOrderController {
     }
 
     @GetMapping("/{idOrder}")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<LimitOrder> getOrderById(@PathVariable("idOrder") long id) {
         log.info("Возвращает заказ по id: {}", id);
 
@@ -87,7 +88,7 @@ public class CourierOrderController {
     }
 
     @GetMapping("/courier/{idCourier}")
-    public ResponseEntity<Page<LimitOrder>> getAllOrdersByCourierId(@PathVariable("idCourier") long id, @RequestParam int page, @RequestParam int pageSize) {
+    public ResponseEntity<Page<LimitOrder>> getAllOrdersByCourierId(@PathVariable("idCourier") String id, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Возвращает все заказы курьера с id: {}", id);
 
         Page<LimitOrder> orders = orderService.findOrdersByCourierId(id, page, pageSize);

@@ -194,7 +194,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public Page<LimitOrder> findOrdersByCourierId(long id, int page, int pageSize) {
+    public Page<LimitOrder> findOrdersByCourierId(String id, int page, int pageSize) {
         log.info("Получает список всех заказов курьера, ограниченный страницей");
         Pageable pageable = PageRequest.of(page, pageSize);
 

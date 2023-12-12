@@ -3,6 +3,7 @@ package ru.sber.controllers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.sber.services.AnalyticService;
 
@@ -32,6 +33,7 @@ public class AnalyticController {
     }
 
     @GetMapping("/courier/{id}")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<Integer> getCountOrderFromCourier(@PathVariable("id") String idCourier) {
         log.info("Получает количество заказов сделанных курьером");
         int countOrder = analyticService.findCountOrderFromCourier(idCourier);

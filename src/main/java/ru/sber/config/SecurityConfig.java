@@ -24,8 +24,6 @@ public class SecurityConfig {
                 .csrf()
                     .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/orders/awaiting-delivery/**")
-                .permitAll()
                     .anyRequest()
                         .authenticated();
 

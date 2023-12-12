@@ -88,7 +88,7 @@ public interface OrderService {
      * @param id идентификатор курьера
      * @return список заказов курьера
      */
-    Page<LimitOrder> findOrdersByCourierId(long id, int page, int pageSize);
+    Page<LimitOrder> findOrdersByCourierId(String id, int page, int pageSize);
 
     /**
      * Возвращает заказы, которые доставляет курьер
