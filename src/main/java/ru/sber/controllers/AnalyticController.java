@@ -23,6 +23,7 @@ public class AnalyticController {
     }
 
     @GetMapping("/client/{id}")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<Integer> getCountOrderFromClient(@PathVariable("id") long idClient) {
         log.info("Получает количество заказов сделанных клиентом");
         int countOrder = analyticService.findCountOrderFromClient(idClient);
@@ -44,6 +45,7 @@ public class AnalyticController {
     }
 
     @GetMapping("/employee/{id}")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<Integer> getCountOrderFromEmployeeRestaurant(@PathVariable("id") long idEmployeeRestaurant) {
         log.info("Получает количество заказов сделанных работником ресторана");
         int countOrder = analyticService.findCountOrderFromEmployeeRestaurantId(idEmployeeRestaurant);
@@ -53,6 +55,7 @@ public class AnalyticController {
     }
 
     @GetMapping("/sum/price/client/{id}")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<BigDecimal> getSumPriceClient(@PathVariable("id") long idClient) {
         log.info("Получает количество заказов сделанных клиентом");
         BigDecimal sumPriceClient = analyticService.sumPriceClient(idClient);
@@ -61,6 +64,7 @@ public class AnalyticController {
     }
 
     @GetMapping("/orders/per/month")
+    @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<Long> getOrderPerMonth(@RequestParam(required = false) Integer year,
                                                  @RequestParam(required = false) Integer month) {
         log.info("Получает количество заказов поступивших за месяц");
