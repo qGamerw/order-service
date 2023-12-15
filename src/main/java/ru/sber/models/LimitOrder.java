@@ -26,6 +26,8 @@ public class LimitOrder {
     private LocalDateTime orderTime;
     private String address;
     private String branchAddress;
+    private Coordinates addressCoordinates;
+    private Coordinates branchAddressCoordinates;
     private Integer flat;
     private Integer frontDoor;
     private Integer floor;

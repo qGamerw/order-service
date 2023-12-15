@@ -60,6 +60,8 @@ public interface OrderService {
      */
     Optional<LimitOrder> findOrderById(long id);
 
+    Optional<LimitOrder> findOrderByIdWithCoordinates(long id);
+
     /**
      * Оплачивает заказ и изменяет статус заказа
      *

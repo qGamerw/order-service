@@ -78,7 +78,7 @@ public class CourierOrderController {
     public ResponseEntity<LimitOrder> getOrderById(@PathVariable("idOrder") long id) {
         log.info("Возвращает заказ по id: {}", id);
 
-        Optional<LimitOrder> order = orderService.findOrderById(id);
+        Optional<LimitOrder> order = orderService.findOrderByIdWithCoordinates(id);
         return order.map(
                         limitOrderCourier -> ResponseEntity.ok()
                                 .body(limitOrderCourier))
