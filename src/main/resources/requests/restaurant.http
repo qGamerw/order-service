@@ -1,0 +1,56 @@
+### Обновляет статус заказа COOKING
+
+PUT localhost:8083/orders/12
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "status": "COOKING",
+  "branchId": 1,
+  "branchAddress": "address"
+}
+
+### Обновляет статус заказа COOKED
+
+PUT localhost:8083/orders/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "status": "REVIEW"
+}
+
+### Получает заказы со статусами на рассмотрении и в процессе
+
+GET localhost:8083/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+
+### Оплачивает заказ
+
+PUT localhost:8083/orders/4/payment
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+
+### Отменяет заказ
+
+PUT localhost:8083/orders/27/cancel
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "message": "У клиента имя не грузинское, так нельзя.!"
+}
+
+### Отменяет заказы
+
+PUT localhost:8083/orders/cancel?listId=10,11
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0
+Content-Type: application/json
+
+{
+  "message": "У клиента имя не грузинское, так нельзя.!"
+}
+
+### Получает заказы со статусами на рассмотрении и в процессе
+
+GET localhost:8083/orders/orders/notify/1,2
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VybmFtZTMiLCJpYXQiOjE2OTU4NDMwOTgsImV4cCI6MTY5NTkyOTQ5OH0.nhsPlsgDeoC2dhtoAjsa-t876rPo1WtDTyR6BmHB_J0

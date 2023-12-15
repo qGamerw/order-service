@@ -26,10 +26,13 @@ public class Order {
     private Long id;
 
     @Column(nullable = false)
-    private long clientId;
+    private String clientId;
 
     @Column
-    private Long courierId;
+    private String courierId;
+
+    @Column
+    private String employeeRestaurantId;
 
     @Column
     private long branchOfficeId;

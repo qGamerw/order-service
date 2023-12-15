@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class LimitOrderClient {
     private long id;
-    private long clientId;
+    private String clientId;
     private String clientName;
     private String clientPhoneNumber;
 
@@ -52,4 +52,5 @@ public class LimitOrderClient {
         this.status = order.getStatusOrders().name();
         this.listDishesFromOrder = dishesOrder;
     }
+
 }

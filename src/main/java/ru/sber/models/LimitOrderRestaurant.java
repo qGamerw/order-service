@@ -15,8 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class LimitOrderRestoran {
+public class LimitOrderRestaurant {
     private Long id;
+    private String clientId;
     private String clientName;
     private String description;
     private String clientPhone;
@@ -27,10 +28,12 @@ public class LimitOrderRestoran {
     private String address;
     private String branchAddress;
     private Long branchId;
+    private String employeeRestaurantId;
     private List<LimitDishesOrder> dishesOrders;
 
-    public LimitOrderRestoran(Order order, List<LimitDishesOrder> dishesOrder) {
+    public LimitOrderRestaurant(Order order, List<LimitDishesOrder> dishesOrder) {
         this.id = order.getId();
+        this.clientId = order.getClientId();
         this.clientName = order.getClientName();
         this.clientPhone = order.getClientPhoneNumber();
         this.status = order.getStatusOrders().toString();
@@ -38,9 +41,10 @@ public class LimitOrderRestoran {
         this.orderCookingTime = order.getStartCookingTime();
         this.orderCookedTime = order.getEndCookingTime();
         this.description = order.getDescription();
-        this.dishesOrders = dishesOrder;
         this.address = order.getAddress();
         this.branchAddress = order.getBranchAddress();
         this.branchId = order.getBranchOfficeId();
+        this.employeeRestaurantId = order.getEmployeeRestaurantId();
+        this.dishesOrders = dishesOrder;
     }
 }

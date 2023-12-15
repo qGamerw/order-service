@@ -1,24 +1,34 @@
 package ru.sber.services;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import ru.sber.entities.Order;
-import ru.sber.entities.enums.EStatusOrders;
-import ru.sber.models.LimitDishesOrder;
-import ru.sber.models.LimitOrder;
-import ru.sber.models.LimitOrderRestoran;
-import ru.sber.repositories.DishesOrderRepository;
-import ru.sber.repositories.OrderRepository;
-
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.slf4j.Slf4j;
+import ru.sber.entities.Order;
+import ru.sber.entities.enums.EStatusOrders;
+import ru.sber.models.Coordinates;
+import ru.sber.models.LimitDishesOrder;
+import ru.sber.models.LimitOrder;
+import ru.sber.models.LimitOrderRestaurant;
+import ru.sber.repositories.DishesOrderRepository;
+import ru.sber.repositories.OrderRepository;
 
 /**
  * Контроллер для взаимодействия {@link Order заказами}
@@ -36,7 +46,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean updateOrderStatus(long id, LimitOrderRestoran orderRequest) {
+    public boolean updateOrderStatus(long id, LimitOrderRestaurant orderRequest) {
         log.info("Обновляет статус заказа с id {} на статус {}", id, orderRequest.getStatus());
 
         Optional<Order> order = orderRepository.findById(id);
@@ -48,6 +58,7 @@ public class OrderServiceImp implements OrderService {
                     currentOrder.setStartCookingTime(LocalDateTime.now());
                     currentOrder.setBranchOfficeId(orderRequest.getBranchId());
                     currentOrder.setBranchAddress(orderRequest.getBranchAddress());
+                    currentOrder.setEmployeeRestaurantId(orderRequest.getEmployeeRestaurantId());
                 }
                 case "COOKED" -> order.get().setEndCookingTime(LocalDateTime.now());
                 case "DELIVERY" -> order.get().setDeliveryTime(LocalDateTime.now());
@@ -63,7 +74,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public boolean updateOrderCourierId(long idCourier, long idOrder) {
+    public boolean updateOrderCourierId(String idCourier, long idOrder) {
         log.info("Обновляет курьера (id={}) заказа с id {}", idCourier, idOrder);
         Optional<Order> order = orderRepository.findById(idOrder);
         if(order.isPresent()) {
@@ -75,7 +86,7 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrderRestoran> getListOrder() {
+    public List<LimitOrderRestaurant> getListOrder() {
         log.info("Получает список заказов со статусом: в ожидании, в процессе готовки и готов");
 
         List<EStatusOrders> eStatusOrdersList = Arrays.asList(
@@ -120,6 +131,29 @@ public class OrderServiceImp implements OrderService {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean cancellationOfOrderByListId(String listId, String massage) {
+        log.info("Отказывается от заказов с id {}", listId);
+
+        if (massage.isEmpty()){ return false; }
+
+        List<Long> dishIds = Arrays.stream(listId.split(","))
+                .map(Long::parseLong)
+                .toList();
+
+        dishIds.forEach(item -> {
+            Optional<Order> order = orderRepository.findById(item);
+
+            if (order.isPresent()) {
+                order.get().setStatusOrders(EStatusOrders.CANCELLED);
+                order.get().setRefusalReason(massage);
+                orderRepository.save(order.get());
+            }
+        });
+
+        return true;
     }
 
     @Override
@@ -168,18 +202,68 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
-    public List<LimitOrder> findOrdersByCourierId(long id) {
-        return orderRepository.findOrderByCourierId(id)
+    public Optional<LimitOrder> findOrderByIdWithCoordinates(long id) {
+        log.info("Поиск заказа с id {}", id);
+
+        Optional<LimitOrder> limitOrder = findOrderById(id);
+
+        if (limitOrder.isPresent()) {
+            LimitOrder legitLimitOrder = limitOrder.get();
+
+            try {
+                legitLimitOrder.setBranchAddressCoordinates(requestCoordinates(legitLimitOrder.getBranchAddress()));
+                legitLimitOrder.setAddressCoordinates(requestCoordinates(legitLimitOrder.getAddress()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return Optional.of(legitLimitOrder);
+        }
+
+        return Optional.empty();
+    }
+
+    public Coordinates requestCoordinates(String address) throws IOException {
+        String apiKey = "8ec18778-cb70-437f-87fc-7c17e8e0bb71";
+        RestTemplate restTemplate = new RestTemplate();
+        String url = "https://geocode-maps.yandex.ru/1.x/?apikey=" + apiKey + "&geocode=" + address+ "&format=json";
+        ResponseEntity<?> response = restTemplate.exchange(url, HttpMethod.GET, null, Object.class);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(objectMapper.writeValueAsString(response.getBody()));
+        log.info("Определение по адресу: {}", rootNode);
+        JsonNode posNode = rootNode.path("response").path("GeoObjectCollection").path("featureMember").get(0).path("GeoObject").path("Point").path("pos");
+        String pos = posNode.asText();
+        log.info("Ответ: {}.", pos);
+        String[] numbers = pos.split(" ");
+
+        return new Coordinates(new BigDecimal(numbers[0]), new BigDecimal(numbers[1]));
+    }
+
+    @Override
+    public Page<LimitOrder> findOrdersByCourierId(String id, int page, int pageSize) {
+        log.info("Получает список всех заказов курьера, ограниченный страницей");
+        Pageable pageable = PageRequest.of(page, pageSize);
+
+        return orderRepository.findOrderByCourierId(id, pageable)
+                .map(getLimitOrderFunction());
+    }
+
+    @Override
+    public List<LimitOrder> findOrdersCourierIsDelivering(String id) {
+        return orderRepository.findOrderByCourierIdAndStatusOrdersNot(id, EStatusOrders.COMPLETED)
                 .stream()
                 .map(getLimitOrderFunction())
                 .toList();
     }
 
     @Override
-    public List<LimitOrder> findOrdersCourierIsDelivering(long id) {
-        return orderRepository.findOrderByCourierIdAndStatusOrdersNot(id, EStatusOrders.CANCELLED)
-                .stream()
-                .map(getLimitOrderFunction())
+    public List<LimitOrderRestaurant> getListOrderByNotify(String ordersId) {
+        List<Long> dishIds = Arrays.stream(ordersId.split(","))
+                .map(Long::parseLong)
+                .toList();
+
+        return orderRepository.findAllById(dishIds).stream()
+                .map(getLimitOrderRestoranFunction())
                 .toList();
     }
 
@@ -199,17 +283,17 @@ public class OrderServiceImp implements OrderService {
     }
 
     /**
-     * Преобразует класс Order {@link Order} в {@link LimitOrderRestoran}
+     * Преобразует класс Order {@link Order} в {@link LimitOrderRestaurant}
      *
      * @return LimitOrderRestoran
      */
-    private Function<Order, LimitOrderRestoran> getLimitOrderRestoranFunction() {
+    private Function<Order, LimitOrderRestaurant> getLimitOrderRestoranFunction() {
         return order -> {
             List<LimitDishesOrder> dishesOrders = dishesOrderRepository.findAllByOrderId(order.getId())
                     .stream()
                     .map(LimitDishesOrder::new)
                     .toList();
-            return new LimitOrderRestoran(order, dishesOrders);
+            return new LimitOrderRestaurant(order, dishesOrders);
         };
     }
 }

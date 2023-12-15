@@ -2,7 +2,7 @@ package ru.sber.services;
 
 import ru.sber.entities.Order;
 import ru.sber.models.LimitOrder;
-import ru.sber.models.LimitOrderRestoran;
+import ru.sber.models.LimitOrderRestaurant;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public interface OrderService {
      * @param orderRequest заказ
      * @return boolean
      */
-    boolean updateOrderStatus(long id, LimitOrderRestoran orderRequest);
+    boolean updateOrderStatus(long id, LimitOrderRestaurant orderRequest);
 
     /**
      * Устанавливает курьера на заказ
@@ -29,14 +29,14 @@ public interface OrderService {
      * @param idOrder индификатор заказа
      * @return true в случае успеха
      */
-    boolean updateOrderCourierId(long idCourier, long idOrder);
+    boolean updateOrderCourierId(String idCourier, long idOrder);
 
     /**
      * Получает все заказы со статусом на рассмотрении и в процессе
      *
      * @return List<LimitOrder>
      */
-    List<LimitOrderRestoran> getListOrder();
+    List<LimitOrderRestaurant> getListOrder();
 
     /**
      * Ищет список заказов которые готовятся или уже готовы, но не доставляются
@@ -60,6 +60,8 @@ public interface OrderService {
      */
     Optional<LimitOrder> findOrderById(long id);
 
+    Optional<LimitOrder> findOrderByIdWithCoordinates(long id);
+
     /**
      * Оплачивает заказ и изменяет статус заказа
      *
@@ -76,17 +78,31 @@ public interface OrderService {
     boolean cancellationOfOrderById(Long id, String massage);
 
     /**
+     * Отменяет заказы
+     *
+     * @param listId listId заказов
+     */
+    boolean cancellationOfOrderByListId(String listId, String massage);
+
+    /**
      * Возвращает все заказы которые брал курьер
      *
      * @param id идентификатор курьера
      * @return список заказов курьера
      */
-    List<LimitOrder> findOrdersByCourierId(long id);
+    Page<LimitOrder> findOrdersByCourierId(String id, int page, int pageSize);
 
     /**
      * Возвращает заказы, которые доставляет курьер
      * @param id индификатор курьера
      * @return список курьеров
      */
-    List<LimitOrder> findOrdersCourierIsDelivering(long id);
+    List<LimitOrder> findOrdersCourierIsDelivering(String id);
+
+    /**
+     * Получает заказы для уведомления
+     * @param ordersId list of order id
+     * @return List<LimitOrder>
+     */
+    List<LimitOrderRestaurant> getListOrderByNotify(String ordersId);
 }
