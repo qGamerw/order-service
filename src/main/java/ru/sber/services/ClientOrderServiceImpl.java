@@ -41,7 +41,7 @@ public class ClientOrderServiceImpl implements ClientOrderService {
                 .toList();
 
         dishesOrderRepository.saveAll(dishOrders);
-
+        log.info("Order id {}", order.getId());
         return order.getId();
     }
 

@@ -29,11 +29,11 @@ public class ClientOrderController {
 
     @PostMapping
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<Void> createOrder(@RequestBody ClientOrder clientOrder) {
+    public ResponseEntity<Long> createOrder(@RequestBody ClientOrder clientOrder) {
         log.info("Создает заказ клиента {}", clientOrder);
-
-        return ResponseEntity.created(URI.create("orders/" + clientOrderService.createOrder(clientOrder)))
-                .build();
+        Long id = clientOrderService.createOrder(clientOrder);
+        return ResponseEntity.created(URI.create("orders/" + id))
+                .body(id);
     }
 
     @GetMapping("/client/{id}")
