@@ -9,7 +9,6 @@ import ru.sber.models.ClientOrder;
 import ru.sber.models.LimitOrderClient;
 import ru.sber.services.ClientOrderService;
 
-import java.net.URI;
 import java.util.List;
 
 /**
@@ -27,24 +26,33 @@ public class ClientOrderController {
         this.clientOrderService = clientOrderService;
     }
 
+    /**
+     * Создает заказ от клиента
+     *
+     * @param clientOrder заказ клиента
+     * @return Результат
+     */
     @PostMapping
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<Long> createOrder(@RequestBody ClientOrder clientOrder) {
+    public ResponseEntity<String> createOrder(@RequestBody ClientOrder clientOrder) {
         log.info("Создает заказ клиента {}", clientOrder);
-        Long id = clientOrderService.createOrder(clientOrder);
-        return ResponseEntity.created(URI.create("orders/" + id))
-                .body(id);
+
+        return clientOrderService.createOrder(clientOrder);
     }
 
+    /**
+     * Получение заказа по id
+     *
+     * @param id id заказ
+     * @return Результат
+     */
     @GetMapping("/client/{id}")
     @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<List<LimitOrderClient>> getOrdersByClientId(@PathVariable String id) {
-
         log.info("Получает заказы по id клиента {}", id);
-        List<LimitOrderClient> orders = clientOrderService.getAllOrdersByClientId(id);
-        log.info("Заказы пользователя: {}", orders);
 
-        return ResponseEntity.ok()
-                .body(orders);
+        return ResponseEntity
+                .ok()
+                .body(clientOrderService.getAllOrdersByClientId(id));
     }
 }

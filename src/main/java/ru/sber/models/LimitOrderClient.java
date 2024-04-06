@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * Класс для вывода заказа
+ * Модель для вывода заказа
  */
 @Data
 public class LimitOrderClient {

@@ -1,10 +1,10 @@
-###
-GET http://localhost:8083/analytic/client/1
-
-###
+### Курьер - Получает количество заказов у курьера
 GET http://localhost:8083/analytic/courier/1
 
-###
+### Клиент - Получает количество заказов сделанных клиентом
+GET http://localhost:8083/analytic/client/1
+
+### Клиент - Получает сумму, которую клиент потратил на заказы
 GET http://localhost:8083/analytic/sum/price/client/1
 
 ### Ресторан - получение по работнику количество заказов
