@@ -12,21 +12,19 @@
 
 ## Интеграция с другими сервисами:
 
-### Сервис Клиент
+### Сервис [Клиент](https://github.com/qGamerw/customer-service)
 
 * Передает список заказов
 * Получает заказ
 * Передает аналитику
 
-### Сервис Ресторан
-https://github.com/qGamerw/restaurant-service
+### Сервис [Ресторан](https://github.com/qGamerw/restaurant-service)
 
 * Передает список заказов
 * Получает обновленную информацию о заказах
 * Передает аналитику
 
-### Сервис Курьер
-https://github.com/qGamerw/delivery-service
+### Сервис [Курьер](https://github.com/qGamerw/delivery-service)
 
 * Передает список заказов
 * Получает обновленную информацию о заказах
