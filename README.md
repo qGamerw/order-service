@@ -36,14 +36,13 @@
 
 ## Стек технологий
 
-### Backend
-
-* Spring Boot
-* Spring Security
+# Backend
+* Spring framework
 * Hibernate
-* Apache Kafka
-* Spring CLoud OpenFeign
-* KeyCloak
+* Rest Api
+* Lombok
+* Maven
+* JWT Api
 
 ### БД
 
