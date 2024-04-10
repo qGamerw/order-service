@@ -10,7 +10,6 @@ import ru.sber.models.LimitOrder;
 import ru.sber.services.OrderService;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Контроллер для взаимодействия сервером Курьер
@@ -26,74 +25,95 @@ public class CourierOrderController {
         this.orderService = orderService;
     }
 
+    /**
+     * Обновляет заказ от курьера
+     *
+     * @param courierId id курьера
+     * @param order     заказ
+     * @return Результат
+     */
     @PutMapping("/courier/{courierId}")
-    public ResponseEntity<?> updateOrderCourier(@PathVariable("courierId") String courierId, @RequestBody LimitOrder order) {
+    public ResponseEntity<String> updateOrderCourier(@PathVariable("courierId") String courierId, @RequestBody LimitOrder order) {
         log.info("Обновляет id курьера у заказа с id {}", order.getId());
 
-        var isUpdate = orderService.updateOrderCourierId(courierId, order.getId());
-
-        if (isUpdate) {
-            return ResponseEntity.ok()
-                    .build();
-        } else {
-            return ResponseEntity.badRequest()
-                    .build();
-        }
+        return orderService.updateOrderCourierId(courierId, order.getId());
     }
 
+    /**
+     * Получает активные заказы для курьера
+     *
+     * @return Результат
+     */
     @GetMapping("/awaiting-delivery")
     @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<List<LimitOrder>> getActiveListOrder() {
         log.info("Получает заказы со статусами готовится и готов");
 
-        List<LimitOrder> orders = orderService.findAllActiveOrder();
-
-        return ResponseEntity.ok()
-                .body(orders);
+        return ResponseEntity
+                .ok()
+                .body(orderService.findAllActiveOrder());
     }
 
+    /**
+     * Получает активные заказы по страницам для курьера
+     *
+     * @param page     номер страницы
+     * @param pageSize размер страницы
+     * @return Результат
+     */
     @GetMapping("/awaiting-delivery/by-page")
     @PreAuthorize("hasRole('client_user')")
     public ResponseEntity<Page<LimitOrder>> getActiveListOrder(@RequestParam int page, @RequestParam int pageSize) {
         log.info("Получает заказы со статусами готовится и готов, ограниченный страницей");
 
-        Page<LimitOrder> orders = orderService.findAllActiveOrdersByPage(page, pageSize);
-
-        return ResponseEntity.ok()
-                .body(orders);
+        return ResponseEntity
+                .ok()
+                .body(orderService.findAllActiveOrdersByPage(page, pageSize));
     }
 
+    /**
+     * Получает заказы по id курьера
+     *
+     * @param id id курьера
+     * @return Результат
+     */
     @GetMapping("/delivering/courier/{idCourier}")
     public ResponseEntity<List<LimitOrder>> getOrdersIsDelivering(@PathVariable("idCourier") String id) {
         log.info("Получает заказы которые доставляет курьер");
 
-        List<LimitOrder> orders = orderService.findOrdersCourierIsDelivering(id);
-
-        return ResponseEntity.ok()
-                .body(orders);
+        return ResponseEntity
+                .ok()
+                .body(orderService.findOrdersCourierIsDelivering(id));
     }
 
+    /**
+     * Возвращает заказ по id
+     *
+     * @param id заказ клиента
+     * @return Результат
+     */
     @GetMapping("/{idOrder}")
     @PreAuthorize("hasRole('client_user')")
-    public ResponseEntity<LimitOrder> getOrderById(@PathVariable("idOrder") long id) {
+    public ResponseEntity<?> getOrderById(@PathVariable("idOrder") long id) {
         log.info("Возвращает заказ по id: {}", id);
 
-        Optional<LimitOrder> order = orderService.findOrderByIdWithCoordinates(id);
-        return order.map(
-                        limitOrderCourier -> ResponseEntity.ok()
-                                .body(limitOrderCourier))
-                .orElseGet(() -> ResponseEntity.notFound()
-                        .build()
-                );
+        return orderService.getOrderByIdWithCoordinates(id);
     }
 
+    /**
+     * Создает заказ от клиента
+     *
+     * @param id       id курьера
+     * @param page     номер страницы
+     * @param pageSize размер страницы
+     * @return Результат
+     */
     @GetMapping("/courier/{idCourier}")
     public ResponseEntity<Page<LimitOrder>> getAllOrdersByCourierId(@PathVariable("idCourier") String id, @RequestParam int page, @RequestParam int pageSize) {
         log.info("Возвращает все заказы курьера с id: {}", id);
 
-        Page<LimitOrder> orders = orderService.findOrdersByCourierId(id, page, pageSize);
-
-        return ResponseEntity.ok()
-                .body(orders);
+        return ResponseEntity
+                .ok()
+                .body(orderService.findOrdersByCourierId(id, page, pageSize));
     }
 }

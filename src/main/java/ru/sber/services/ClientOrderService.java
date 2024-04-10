@@ -1,5 +1,6 @@
 package ru.sber.services;
 
+import org.springframework.http.ResponseEntity;
 import ru.sber.entities.Order;
 import ru.sber.models.ClientOrder;
 import ru.sber.models.LimitOrderClient;
@@ -14,15 +15,15 @@ public interface ClientOrderService {
      * Создает заказ
      *
      * @param clientOrder заказ клиента
-     * @return созданный заказ
+     * @return Результат
      */
-    Long createOrder(ClientOrder clientOrder);
+    ResponseEntity<String> createOrder(ClientOrder clientOrder);
 
     /**
-     * Получает все заказы клиента по его id
+     * Получает все заказы клиента по id
      *
      * @param clientId id клиента
-     * @return список заказов клиента
+     * @return Список заказов клиента
      */
     List<LimitOrderClient> getAllOrdersByClientId(String clientId);
 }

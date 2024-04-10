@@ -1,21 +1,21 @@
 package ru.sber.services;
 
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.sber.entities.DishOrder;
 import ru.sber.entities.Order;
 import ru.sber.models.ClientOrder;
-import ru.sber.models.LimitOrderClient;
 import ru.sber.models.LimitDishesOrder;
+import ru.sber.models.LimitOrderClient;
 import ru.sber.repositories.DishesOrderRepository;
 import ru.sber.repositories.OrderRepository;
 
 import java.util.List;
 import java.util.function.Function;
 
-@Slf4j
 @Service
 public class ClientOrderServiceImpl implements ClientOrderService {
 
@@ -30,25 +30,20 @@ public class ClientOrderServiceImpl implements ClientOrderService {
 
     @Transactional
     @Override
-    public Long createOrder(ClientOrder clientOrder) {
-        log.info("Создаем заказ клиента с id {}", clientOrder);
-
+    public ResponseEntity<String> createOrder(ClientOrder clientOrder) {
         Order order = orderRepository.save(new Order(clientOrder));
 
         List<DishOrder> dishOrders = clientOrder.getListDishesFromOrder()
                 .stream()
-                .map(dishId -> new DishOrder(dishId.getDishId(), dishId.getDishName(), order , dishId.getQuantity()))
+                .map(dishId -> new DishOrder(dishId.getDishId(), dishId.getDishName(), order, dishId.getQuantity()))
                 .toList();
 
         dishesOrderRepository.saveAll(dishOrders);
-        log.info("Order id {}", order.getId());
-        return order.getId();
+        return new ResponseEntity<>("Заказ успешно создался.", HttpStatus.CREATED);
     }
 
     @Override
     public List<LimitOrderClient> getAllOrdersByClientId(String clientId) {
-        log.info("Получаем все заказы клиента с id {}", clientId);
-
         return orderRepository.findOrderByClientId(clientId).stream()
                 .map(getLimitOrderRestoranFunction())
                 .toList();

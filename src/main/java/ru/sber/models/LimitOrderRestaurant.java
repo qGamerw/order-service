@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.sber.entities.Order;
-import ru.sber.entities.enums.EStatusOrders;
 
 import java.time.LocalDateTime;
 import java.util.List;

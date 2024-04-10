@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Класс для создания заказа
+ * Модель для создания заказа
  */
 @Data
 public class ClientOrder {

@@ -17,7 +17,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByStatusOrdersIn(List<EStatusOrders> statusOrders);
 
     List<Order> findByStatusOrdersInAndCourierIdNull(List<EStatusOrders> statusOrders);
-    
+
     Page<Order> findByStatusOrdersInAndCourierIdNull(List<EStatusOrders> statusOrders, Pageable pageable);
 
     Page<Order> findOrderByCourierId(String id, Pageable pageable);
@@ -25,7 +25,10 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findOrderByClientId(String id);
 
     List<Order> findOrderByCourierIdAndStatusOrdersNot(String courierId, EStatusOrders statusOrders);
+
     int countOrderByClientId(String id);
+
     int countOrderByCourierId(String id);
+
     int countOrderByEmployeeRestaurantId(String id);
 }
