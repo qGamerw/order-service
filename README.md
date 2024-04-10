@@ -36,7 +36,7 @@
 
 ## Стек технологий
 
-# Backend
+### Backend
 * Spring framework
 * Hibernate
 * Rest Api
